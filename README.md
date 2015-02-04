@@ -1,5 +1,5 @@
 # VisualPaginator
-Visual Paginator for Nette 2.2 and Bootstrap3
+Visual Paginator for Nette 2.2 and Bootstrap v3
 
 ## Usage
 #### Presenter
@@ -30,8 +30,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
     */
   protected function createComponentPaginator()
   {
-    $visualPaginator = new VisualPaginator;
-    return $visualPaginator;
+    return $visualPaginator = new VisualPaginator;
   }
 }
 ```
