@@ -16,5 +16,5 @@
 		"nette/latte": "~2.2@dev",
 		"nette/utils": "~2.2@dev",
 	}
-	"minimum-stability": "dev"
+	"minimum-stability": "stable"
 }
