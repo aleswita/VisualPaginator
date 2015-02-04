@@ -1,5 +1,5 @@
 # VisualPaginator
-Visual Paginator for Nette 2.2 and Bootstrap v3
+Visual Paginator for Nette Framework and Bootstrap v3
 
 ## Usage
 #### Presenter
