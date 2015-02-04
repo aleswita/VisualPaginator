@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components;
+namespace AlesWita\Components;
 
 use Nette\Utils\Paginator,
     Nette\Application\UI\Control,
@@ -42,6 +42,26 @@ class VisualPaginator extends Control
   public function setItemCount($data)
   {
     return $this->paginator->setItemCount($data);
+  }
+
+  /**
+    * setDefaultPage
+    * @param int
+    * @return self
+    */
+  public function setDefaultPage($data)
+  {
+    return $this->page = $data;
+  }
+
+  /**
+    * setDefaultItemsPerPage
+    * @param int
+    * @return self or false
+    */
+  public function setDefaultItemsPerPage($data)
+  {
+    return (in_Array($data,$this->itemsPerPageList) ? $this->items_per_page = $data : false);
   }
 
   /**
