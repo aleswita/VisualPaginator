@@ -37,7 +37,7 @@ final class HomePresenter extends BasePresenter
 ```
 
 
-### More options
+#### More options
 You can use option, where you can change count items per page:
 ```php
 $visualPaginator->canSetItemsPerPage();
