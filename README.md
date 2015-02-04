@@ -4,7 +4,7 @@ Visual Paginator for Nette 2.2 and Bootstrap v3
 ## Usage
 #### Presenter
 ```php
-abstract class HomePresenter extends BasePresenter
+final class HomePresenter extends BasePresenter
 {
   ...
   ...
