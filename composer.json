@@ -1,0 +1,19 @@
+{
+	"name": "aleswita/VisualPaginator",
+	"type": "component",
+	"description": "Visual Paginator for Nette 2.2 and Bootstrap v3",
+	"keywords": ["nette","visualpaginator","paginator"],
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Aleš Wita",
+			"email": "aleswita+github@gmail.com"
+		}
+	],
+	"require": {
+		"nette/application": "~2.2@dev",
+		"nette/forms": "~2.2@dev",		
+		"nette/latte": "~2.2@dev",
+		"nette/utils": "~2.2@dev",
+	}
+}
