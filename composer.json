@@ -16,4 +16,9 @@
                 "nette/utils": "~2.2",	
                 "nette/latte": "~2.2"
         }
+ 	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.0-dev"
+		}
+	},       
 }
