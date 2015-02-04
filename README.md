@@ -1,2 +1,59 @@
 # VisualPaginator
-Visual Paginator for Nette 2.2.
+Visual Paginator for Nette 2.2 and Bootstrap3
+
+## Usage
+#### Presenter
+```php
+use Nette,
+    AlesWita\Components\VisualPaginator;
+
+abstract class BasePresenter extends Nette\Application\UI\Presenter
+{
+  ...
+  ...
+
+  /**
+    * renderDefault
+    */
+  public function renderDefault()
+  {
+    $dataSource = $this->model->dataSource();
+    $this["paginator"]->setItemCount($dataSource->count());
+    $dataSource->applyLimit($this["paginator"]->getItemsPerPage(),$this["paginator"]->getOffset());
+
+    $this->template->items = $dataSource;
+  }
+
+  /**
+    * paginator component
+    * @return AlesWita\Components\VisualPaginator
+    */
+  protected function createComponentPaginator()
+  {
+    $visualPaginator = new VisualPaginator;
+    return $visualPaginator;
+  }
+}
+```
+#### Template
+```html
+{control paginator}
+```
+
+
+### More options
+You can use option, where you can change count items per page:
+```php
+$visualPaginator->canSetItemsPerPage();
+```
+
+If you does not predefined options, you can change it:
+```php
+$visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
+```
+
+..and you can change default values for page and count items per page
+```php
+$visualPaginator->setDefaultPage(5);
+$visualPaginator->setDefaultItemsPerPage(100);
+```
