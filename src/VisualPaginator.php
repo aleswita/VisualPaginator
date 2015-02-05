@@ -25,6 +25,9 @@ class VisualPaginator extends Control
 
   /** @var itemsPerPageList */
   private $itemsPerPageList = [10 => "10",20 => "20",30 => "30",40 => "40",50 => "50",100 => "100"];
+  
+  /** @var paginatorTemplate */
+  private $paginatorTemplate = __DIR__."/template.latte";
 
   /**
     * __construct
@@ -63,6 +66,16 @@ class VisualPaginator extends Control
   {
     return (in_Array($data,$this->itemsPerPageList) ? $this->items_per_page = $data : false);
   }
+  
+  /**
+    * setPaginatorTemplate
+    * @param string
+    * @return self or false
+    */
+  public function setPaginatorTemplate($data)
+  {
+    return $this->paginatorTemplate = $data;
+  }  
 
   /**
     * getItemsPerPage
@@ -119,7 +132,7 @@ class VisualPaginator extends Control
       sort($arr);
     }
 
-    $this->template->setFile(__DIR__."/template.latte");
+    $this->template->setFile($this->paginatorTemplate);
     $this->template->paginator = $this->paginator;
     $this->template->steps = array_values(array_unique($arr));
     $this->template->items_per_page = $this->canSetItemsPerPage;
