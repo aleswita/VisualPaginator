@@ -1,4 +1,4 @@
-# VisualPaginator
+# Visual Paginator
 Visual Paginator for Nette Framework and Bootstrap
 
 ## Usage
