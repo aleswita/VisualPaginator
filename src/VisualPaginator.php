@@ -160,7 +160,7 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param \Nette\Application\UI\Form
+    * @param Nette\Application\UI\Form
     */
   public function itemsPerPageSuccess(Form $form)
   {
