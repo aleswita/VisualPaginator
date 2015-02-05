@@ -8,6 +8,7 @@ use Nette\Utils\Paginator,
 
 /**
   * @author Ales Wita
+  * @license MIT
   */
 class VisualPaginator extends Control
 {
@@ -27,7 +28,7 @@ class VisualPaginator extends Control
   private $itemsPerPageList = [10 => "10",20 => "20",30 => "30",40 => "40",50 => "50",100 => "100"];
   
   /** @var paginatorTemplate */
-  private $paginatorTemplate = __DIR__."/template.latte";
+  private $paginatorTemplate;
 
   /**
     * __construct
@@ -35,6 +36,7 @@ class VisualPaginator extends Control
   public function __construct()
   {
     $this->paginator = new Paginator;
+    $this->paginatorTemplate = __DIR__."/template.latte";
   }
 
   /**
@@ -45,6 +47,26 @@ class VisualPaginator extends Control
   public function setItemCount($data)
   {
     return $this->paginator->setItemCount($data);
+  }
+
+  /**
+    * setItemsPerPage
+    * @param int
+    * @return self
+    */
+  public function setItemsPerPage($data)
+  {
+    return $this->paginator->setItemsPerPage($data);
+  }
+
+  /**
+    * setPage
+    * @param int
+    * @return self
+    */
+  public function setPage($data)
+  {
+    return $this->paginator->setPage($data);
   }
 
   /**
@@ -87,7 +109,7 @@ class VisualPaginator extends Control
   }
 
   /**
-    * setItemsPerPage
+    * getOffset
     * @return int
     */
   public function getOffset()
