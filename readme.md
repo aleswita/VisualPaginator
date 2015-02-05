@@ -53,7 +53,7 @@ You can change render template:
 $visualPaginator->setPaginatorTemplate(__DIR__."template.latte");
 ```
 
-You can change default values for page and count items per page
+You can change default values for page and count items per page:
 ```php
 $visualPaginator->setDefaultPage(5);
 $visualPaginator->setDefaultItemsPerPage(100);
