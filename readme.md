@@ -38,17 +38,22 @@ final class HomePresenter extends BasePresenter
 
 
 #### More options
-You can use option, where you can change count items per page:
+You can change count items per page:
 ```php
 $visualPaginator->canSetItemsPerPage();
 ```
 
-If you does not predefined options, you can change it:
+You can change default options for items per page:
 ```php
 $visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
 ```
 
-..and you can change default values for page and count items per page
+You can change render template:
+```php
+$visualPaginator->setPaginatorTemplate(__DIR__."template.latte");
+```
+
+You can change default values for page and count items per page
 ```php
 $visualPaginator->setDefaultPage(5);
 $visualPaginator->setDefaultItemsPerPage(100);
