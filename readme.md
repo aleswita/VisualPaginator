@@ -1,6 +1,12 @@
 # Visual Paginator
 Visual Paginator for Nette Framework and Bootstrap
 
+##Installation
+The best way to install aleswita/visualpaginator is using [Composer](http://getcomposer.org/):
+```sh
+$ composer require aleswita/visualpaginator:dev-master
+```
+
 ## Usage
 #### Presenter
 ```php
