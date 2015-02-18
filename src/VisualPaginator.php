@@ -8,6 +8,7 @@ use Nette\Utils\Paginator,
 
 /**
   * @author Ales Wita
+  * @author David Grudl
   * @license MIT
   */
 class VisualPaginator extends Control
@@ -16,19 +17,21 @@ class VisualPaginator extends Control
   public $page = 1;
 
   /** @persistent */
-  public $items_per_page = 20;
+  public $items_per_page = 10;
+
+  /* ******************** */
 
   /** @var paginator */
   private $paginator;
+
+  /** @var paginatorTemplate */
+  private $paginatorTemplate;
 
   /** @var canSetItemsPerPage */
   private $canSetItemsPerPage = false;
 
   /** @var itemsPerPageList */
   private $itemsPerPageList = [10 => "10",20 => "20",30 => "30",40 => "40",50 => "50",100 => "100"];
-  
-  /** @var paginatorTemplate */
-  private $paginatorTemplate;
 
   /**
     * __construct
@@ -39,65 +42,64 @@ class VisualPaginator extends Control
     $this->paginatorTemplate = __DIR__."/template.latte";
   }
 
+	/**
+	  * getPaginator
+    * @return Nette\Utils\Paginator
+    */
+  public function getPaginator()
+  {
+    $this->paginator->setPage($this->page);
+    $this->paginator->setItemsPerPage($this->items_per_page);
+    return $this->paginator;
+  }
+
   /**
     * setItemCount
     * @param int
-    * @return self
     */
   public function setItemCount($data)
   {
-    return $this->paginator->setItemCount($data);
+    $this->paginator->setItemCount($data);
   }
 
   /**
     * setItemsPerPage
     * @param int
-    * @return self
     */
   public function setItemsPerPage($data)
   {
-    return $this->paginator->setItemsPerPage($data);
-  }
-
-  /**
-    * setPage
-    * @param int
-    * @return self
-    */
-  public function setPage($data)
-  {
-    return $this->paginator->setPage($data);
+    $this->paginator->setItemsPerPage($data);
   }
 
   /**
     * setDefaultPage
     * @param int
-    * @return self
     */
   public function setDefaultPage($data)
   {
-    return $this->page = $data;
+    $this->page = $data;
   }
 
   /**
-    * setDefaultItemsPerPage
-    * @param int
-    * @return self or false
+    * canSetItemsPerPage
+    * @param bool or array
     */
-  public function setDefaultItemsPerPage($data)
+  public function canSetItemsPerPage($data=null)
   {
-    return (in_Array($data,$this->itemsPerPageList) ? $this->items_per_page = $data : false);
+    if(is_Array($data))
+      $this->itemsPerPageList = $data;
+
+    $this->canSetItemsPerPage = true;
   }
-  
+
   /**
     * setPaginatorTemplate
     * @param string
-    * @return self or false
     */
   public function setPaginatorTemplate($data)
   {
-    return $this->paginatorTemplate = $data;
-  }  
+    $this->paginatorTemplate = $data;
+  }
 
   /**
     * getItemsPerPage
@@ -118,16 +120,14 @@ class VisualPaginator extends Control
   }
 
   /**
-    * canSetItemsPerPage
-    * @param bool or array
-    * @return self
+    * loadState
+    * @param  array
     */
-  public function canSetItemsPerPage($data=true)
+  public function loadState(array $params)
   {
-    if(is_Array($data))
-      $this->itemsPerPageList = $data;
-
-    return $this->canSetItemsPerPage = true;
+    parent::loadState($params);
+    $this->getPaginator()->page = $this->page;
+    $this->getPaginator()->setItemsPerPage($this->items_per_page);
   }
 
   /**
@@ -135,10 +135,11 @@ class VisualPaginator extends Control
     */
   public function render()
   {
-    $this->paginator->setPage($this->page);
-    $this->paginator->setItemsPerPage($this->items_per_page);
+    $this->verifyingData();
 
-    $this["itemsPerPage"]->setDefaults(["items_per_page" => $this->paginator->getItemsPerPage()]);
+    if($this->canSetItemsPerPage)
+      $this["itemsPerPage"]->setDefaults(["items_per_page" => $this->paginator->getItemsPerPage()]);
+
 
     if($this->paginator->pageCount<2)
       $arr = array($this->paginator->page);
@@ -168,7 +169,7 @@ class VisualPaginator extends Control
   protected function createComponentItemsPerPage()
   {
     $form = new Form;
-    $form->addProtection();
+    //$form->getElementPrototype()->class("ajax");
 
     $form->addSelect("items_per_page","Položek na stránku",$this->itemsPerPageList)
       ->setAttribute("onchange","this.form.submit()")
@@ -187,5 +188,14 @@ class VisualPaginator extends Control
   public function itemsPerPageSuccess(Form $form)
   {
     $this->redirect("this",["items_per_page" => $form->getValues()->items_per_page]);
+  }
+
+  /**
+    * verifyingData
+    */
+  private function verifyingData()
+  {
+    if($this->canSetItemsPerPage && !in_Array($this->getItemsPerPage(),$this->itemsPerPageList))
+      throw new \Nette\InvalidArgumentException("Items per page list haven't value '".$this->getItemsPerPage()."', which you set in 'setItemsPerPage()' option.");
   }
 }
