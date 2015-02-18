@@ -1,17 +1,17 @@
 <ul class="pagination pagination-sm">
- {if $paginator->isFirst()}<li class="disabled"><a>&laquo;</a></li>{else}<li><a href="{link this page => $paginator->page-1}">&laquo;</a></li>{/if}
+ {if $paginator->isFirst()}<li class="disabled"><a>&laquo;</a></li>{else}<li><a href="{link this page => $paginator->page-1}" class="ajax">&laquo;</a></li>{/if}
 
  {foreach $steps as $step}
-  <li n:class="$step==$paginator->page ? active"><a href="{link this page => $step}">{$step}</a></li>
+  <li n:class="$step==$paginator->page ? active"><a href="{link this page => $step}" class="ajax">{$step}</a></li>
   {if $iterator->nextValue>$step+1}<li class="disabled"><a>&hellip;</a></li>{/if}
  {/foreach}
 
- {if $paginator->isLast()}<li class="disabled"><a>&raquo;</a></li>{else}<li><a href="{link this page => $paginator->page+1}">&raquo;</a></li>{/if}
+ {if $paginator->isLast()}<li class="disabled"><a>&raquo;</a></li>{else}<li><a href="{link this page => $paginator->page+1}" class="ajax">&raquo;</a></li>{/if}
 </ul>
 
 {if $items_per_page}
  {form itemsPerPage class => "form-inline"}
-  <div class="input-group input-group-sm">
+  <div class="input-group">
    <span class="input-group-addon">{label items_per_page /}</span>
    {input items_per_page class => "form-control"}
    <span class="input-group-btn">{input set class => "btn btn-default"}</span>
