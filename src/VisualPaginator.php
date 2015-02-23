@@ -33,6 +33,9 @@ class VisualPaginator extends Control
   /** @var itemsPerPageList */
   private $itemsPerPageList = [10 => "10",20 => "20",30 => "30",40 => "40",50 => "50",100 => "100"];
 
+  /** @var translator */
+  private $translator;
+
   /**
     * __construct
     */
@@ -120,6 +123,15 @@ class VisualPaginator extends Control
   }
 
   /**
+    * setTranslator
+    * @param translator
+    */
+  public function setTranslator(\Kdyby\Translation\Translator $translator)
+  {
+    $this->translator = $translator;
+  }
+
+  /**
     * loadState
     * @param  array
     */
@@ -171,7 +183,7 @@ class VisualPaginator extends Control
     $form = new Form;
     //$form->getElementPrototype()->class("ajax");
 
-    $form->addSelect("items_per_page","Položek na stránku",$this->itemsPerPageList)
+    $form->addSelect("items_per_page",$this->translator->translate("paginator.items_per_page"),$this->itemsPerPageList)
       ->setAttribute("onchange","this.form.submit()")
       ->setRequired();
 
