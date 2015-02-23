@@ -2,7 +2,6 @@
         "name": "aleswita/visualpaginator",
         "description": "Visual Paginator for Nette Framework and Bootstrap",
         "keywords": ["nette","visualpaginator","paginator"],
-        "type": "library",
         "license": ["MIT"],
         "authors": [
                 {
