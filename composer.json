@@ -14,7 +14,7 @@
                 "php": ">=5.4.12",
                 "nette/nette": ">=2.2"
         },
-    	"autoload": {
-        	"psr-0": {"AlesWita\\VisualPaginator\\": "src/"}
-    	}  
+        "autoload": {
+                "psr-0": {"AlesWita\\VisualPaginator\\": "src/"}
+        }  
 }
