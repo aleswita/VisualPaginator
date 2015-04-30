@@ -35,25 +35,29 @@ class VisualPaginator extends Control
   private $paginator;
 
   /** @var paginatorTemplate */
-  private $paginatorTemplate;
+  private $paginatorTemplate = null;
 
   /** @var translator */
   private $translator;
 
   /* ******************** */
 
-  // session section const
+  // session section constant
   const SESSION_SECTION = "AlesWita\\Components\\VisualPaginator";
+
+  // templates constants
+  const TEMPLATE_NORMAL = "template.latte",
+        TEMPLATE_BOOTSTRAP = "bootstrap.latte",
+        TEMPLATE_BOOTSTRAP_AJAX = "bootstrap-ajax.latte";
 
   /* ******************** */
 
   /**
-    * __construct
+    * @param string
     */
-  public function __construct()
+  public function __construct($template=self::TEMPLATE_NORMAL)
   {
-    $this->paginator = new Paginator;
-    $this->paginatorTemplate = __DIR__."/template.latte";
+    $this->setPaginatorTemplate(__DIR__."/$template");
   }
 
   /* ******************** */
@@ -75,7 +79,7 @@ class VisualPaginator extends Control
   public function canSetItemsPerPage($data=null)
   {
     if(is_Array($data)){
-      $this->itemsPerPageList = $data;
+      $this->setItemsPerPageList($data);
     }
 
     $this->canSetItemsPerPage = true;
@@ -83,12 +87,12 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param int
+    * @param array
     * @return self
     */
-  public function setItemCount($data)
+  public function setItemsPerPageList(array $list)
   {
-    $this->paginator->setItemCount($data);
+    $this->itemsPerPageList = $list;
     return $this;
   }
 
@@ -96,9 +100,9 @@ class VisualPaginator extends Control
     * @param int
     * @return self
     */
-  public function setItemsPerPage($data)
+  public function setItemCount($count)
   {
-    $this->paginator->setItemsPerPage($data);
+    $this->paginator->setItemCount($count);
     return $this;
   }
 
@@ -106,9 +110,9 @@ class VisualPaginator extends Control
     * @param int
     * @return self
     */
-  public function setDefaultPage($data)
+  public function setItemsPerPage($num)
   {
-    $this->page = $data;
+    $this->paginator->setItemsPerPage($num);
     return $this;
   }
 
@@ -116,9 +120,9 @@ class VisualPaginator extends Control
     * @param string
     * @return self
     */
-  public function setPaginatorTemplate($data)
+  public function setPaginatorTemplate($template)
   {
-    $this->paginatorTemplate = $data;
+    $this->paginatorTemplate = $template;
     return $this;
   }
 
@@ -139,6 +143,10 @@ class VisualPaginator extends Control
     */
   public function getPaginator()
   {
+    if(!$this->paginator){
+      $this->paginator = new Paginator;
+    }
+
     $this->paginator->setPage($this->page);
     $this->paginator->setItemsPerPage($this->itemsPerPage);
     return $this->paginator;
@@ -149,11 +157,12 @@ class VisualPaginator extends Control
     */
   public function getItemsPerPage()
   {
-    if($this->session){
+    if($this->session)
+    {
       $request = $this->presenter->getPresenter()->getRequest();
       $presenterName = $request->getPresenterName();
 
-      if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->itemsPerPageList)){
+      if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->getItemsPerPageList())){
         $this->paginator->setItemsPerPage($this->session->$presenterName);
       }else{
         unSet($this->session->$presenterName);
@@ -169,6 +178,30 @@ class VisualPaginator extends Control
   public function getOffset()
   {
     return $this->paginator->getOffset();
+  }
+
+  /**
+    * @return array
+    */
+  public function getItemsPerPageList()
+  {
+    return $this->itemsPerPageList;
+  }
+
+  /**
+    * @return string
+    */
+  public function getPaginatorTemplate()
+  {
+    return $this->paginatorTemplate;
+  }
+
+  /**
+    * @return string
+    */
+  public function getDir()
+  {
+    return __DIR__;
   }
 
   /* ******************** */
@@ -211,7 +244,7 @@ class VisualPaginator extends Control
       sort($arr);
     }
 
-    $this->template->setFile($this->paginatorTemplate);
+    $this->template->setFile($this->getPaginatorTemplate());
     $this->template->paginator = $this->paginator;
     $this->template->steps = array_values(array_unique($arr));
     $this->template->itemsPerPage = $this->canSetItemsPerPage;
@@ -228,7 +261,7 @@ class VisualPaginator extends Control
   {
     $form = new Form;
 
-    $form->addSelect("itemsPerPage",null,$this->itemsPerPageList)
+    $form->addSelect("itemsPerPage",null,$this->getItemsPerPageList())
       ->setAttribute("onchange","this.form.submit()")
       ->setRequired();
 
@@ -260,7 +293,7 @@ class VisualPaginator extends Control
     */
   private function verifyingData()
   {
-    if($this->canSetItemsPerPage && !in_Array($this->getItemsPerPage(),$this->itemsPerPageList)){
+    if($this->canSetItemsPerPage && !in_Array($this->getItemsPerPage(),$this->getItemsPerPageList())){
       throw new \Nette\InvalidArgumentException("Items per page list haven't value '".$this->getItemsPerPage()."', which you set in 'setItemsPerPage()' option.");
     }
   }
