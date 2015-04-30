@@ -9,12 +9,12 @@
  {if $paginator->isLast()}<li class="disabled"><a>&raquo;</a></li>{else}<li><a href="{link this page => $paginator->page+1}" class="ajax">&raquo;</a></li>{/if}
 </ul>
 
-{if $items_per_page}
+{if $itemsPerPage}
  {form itemsPerPage class => "form-inline"}
   <div class="input-group">
-   <span class="input-group-addon">{label items_per_page /}</span>
-   {input items_per_page class => "form-control"}
-   <span class="input-group-btn">{input set class => "btn btn-default"}</span>
+   <strong class="input-group-addon">{$template->translate("Items per page")}</strong>
+   {input itemsPerPage class => "form-control"}
+   <span class="input-group-btn">{input set class => "btn btn-default", value => $template->translate(Set)}</span>
   </div>
  {/form}
 {/if}
