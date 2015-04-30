@@ -262,7 +262,7 @@ class VisualPaginator extends Control
     $form = new Form;
 
     $form->addSelect("itemsPerPage",null,$this->getItemsPerPageList())
-      ->setAttribute("onchange","this.form.submit()")
+      //->setAttribute("onchange","this.form.submit()")
       ->setRequired();
 
     $form->addSubmit("set");
@@ -283,9 +283,7 @@ class VisualPaginator extends Control
       $this->session->$presenterName = $values->itemsPerPage;
     }
 
-    if(!$this->presenter->isAjax()){
-      $this->redirect("this",["itemsPerPage" => $values->itemsPerPage]);
-    }
+    $this->itemsPerPage = $values->itemsPerPage;
   }
 
   /**
