@@ -54,7 +54,7 @@ You can change default options for items per page:
 $visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
 ```
 
-You can set **Nette\Http\Session** to save items per page
+You can set **Nette\Http\Session** to pernament save user items per page
 ```php    
 $visualPaginator->setSession($this->session);
 ```
