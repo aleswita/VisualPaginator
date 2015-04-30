@@ -149,13 +149,15 @@ class VisualPaginator extends Control
     */
   public function getItemsPerPage()
   {
-    $request = $this->presenter->getPresenter()->getRequest();
-    $presenterName = $request->getPresenterName();
+    if($this->session){
+      $request = $this->presenter->getPresenter()->getRequest();
+      $presenterName = $request->getPresenterName();
 
-    if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->itemsPerPageList)){
-      $this->paginator->setItemsPerPage($this->session->$presenterName);
-    }else{
-      unSet($this->session->$presenterName);
+      if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->itemsPerPageList)){
+        $this->paginator->setItemsPerPage($this->session->$presenterName);
+      }else{
+        unSet($this->session->$presenterName);
+      }
     }
 
     return $this->paginator->getItemsPerPage();
@@ -242,10 +244,11 @@ class VisualPaginator extends Control
     */
   public function itemsPerPageSuccess(Form $form,$values)
   {
-    $request = $this->presenter->getPresenter()->getRequest();
-    $presenterName = $request->getPresenterName();
-
-    $this->session->$presenterName = $values->itemsPerPage;
+    if($this->session){
+      $request = $this->presenter->getPresenter()->getRequest();
+      $presenterName = $request->getPresenterName();
+      $this->session->$presenterName = $values->itemsPerPage;
+    }
 
     if(!$this->presenter->isAjax()){
       $this->redirect("this",["itemsPerPage" => $values->itemsPerPage]);
