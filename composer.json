@@ -11,7 +11,9 @@
         ],
         "require": {
                 "php": ">=5.4.12",
-                "nette/nette": ">=2.2"
+                "nette/session": ">=2.3",
+                "nette/utils": ">=2.3",
+                "nette/application": ">=2.3",
         },
         "autoload": {
                 "classmap": ["/"]
