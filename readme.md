@@ -1,8 +1,8 @@
 # Visual Paginator
-Visual Paginator for Nette Framework and Bootstrap
+Visual Paginator for Nette Framework
 
 ##Installation
-The best way to install aleswita/VisualPaginator is using [Composer](http://getcomposer.org/):
+The best way to install AlesWita/VisualPaginator is using [Composer](http://getcomposer.org/):
 ```sh
 $ composer require aleswita/visualpaginator:dev-master
 ```
@@ -44,7 +44,7 @@ final class HomePresenter extends BasePresenter
 
 
 #### More options
-You can change count items per page:
+You can set option, when user can set manualy items per page:
 ```php
 $visualPaginator->canSetItemsPerPage();
 ```
