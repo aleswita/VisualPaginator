@@ -1,5 +1,5 @@
 # Visual Paginator
-Visual Paginator for Nette Framework
+Visual Paginator for Nette Framework.
 
 ##Installation
 The best way to install AlesWita/VisualPaginator is using [Composer](http://getcomposer.org/):
