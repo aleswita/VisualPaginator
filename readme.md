@@ -49,7 +49,7 @@ You can set option, when user can set manualy items per page:
 $visualPaginator->canSetItemsPerPage();
 ```
 
-You can change default options for items per page:
+You can change default options for items per page in select list:
 ```php
 $visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
 ```
@@ -61,7 +61,7 @@ $visualPaginator->setSession($this->session);
 
 You can change render template:
 ```php
-$visualPaginator->setPaginatorTemplate(__DIR__."template.latte");
+$visualPaginator->setPaginatorTemplate(__DIR__."/template.latte");
 ```
 
 You can change default values for page and count items per page:
