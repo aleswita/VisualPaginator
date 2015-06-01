@@ -16,8 +16,8 @@ final class HomePresenter extends BasePresenter
   ...
 
   /**
-    * renderDefault
-    */
+   * renderDefault
+   */
   public function renderDefault()
   {
     $dataSource = $this->model->dataSource();
@@ -28,9 +28,9 @@ final class HomePresenter extends BasePresenter
   }
 
   /**
-    * paginator component
-    * @return AlesWita\Components\VisualPaginator
-    */
+   * paginator component
+   * @return AlesWita\Components\VisualPaginator
+   */
   protected function createComponentPaginator()
   {
     return $visualPaginator = new \AlesWita\Components\VisualPaginator;
@@ -55,7 +55,7 @@ $visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
 ```
 
 You can set **Nette\Http\Session** to pernament save user items per page
-```php    
+```php
 $visualPaginator->setSession($this->session);
 ```
 
