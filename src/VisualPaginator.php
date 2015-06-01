@@ -8,10 +8,10 @@ use Nette\Http\Session,
     Nette\Application\UI\Form;
 
 /**
-  * @author Ales Wita
-  * @author David Grudl
-  * @license MIT
-  */
+ * @author Ales Wita
+ * @author David Grudl
+ * @license MIT
+ */
 class VisualPaginator extends Control
 {
   /** @persistent */
@@ -53,8 +53,8 @@ class VisualPaginator extends Control
   /* ******************** */
 
   /**
-    * @param string
-    */
+   * @param string
+   */
   public function __construct($template=self::TEMPLATE_NORMAL)
   {
     $this->setPaginatorTemplate(__DIR__."/$template");
@@ -63,9 +63,9 @@ class VisualPaginator extends Control
   /* ******************** */
 
   /**
-    * @param Nette\Http\Session
-    * @return self
-    */
+   * @param Nette\Http\Session
+   * @return self
+   */
   public function setSession(Session $session)
   {
     $this->session = $session->getSection(self::SESSION_SECTION);
@@ -73,12 +73,13 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param array
-    * @return self
-    */
+   * @param array
+   * @return self
+   */
   public function canSetItemsPerPage($data=null)
   {
-    if(is_Array($data)){
+    if(is_Array($data))
+    {
       $this->setItemsPerPageList($data);
     }
 
@@ -87,9 +88,9 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param array
-    * @return self
-    */
+   * @param array
+   * @return self
+   */
   public function setItemsPerPageList(array $list)
   {
     $this->itemsPerPageList = $list;
@@ -97,9 +98,9 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param int
-    * @return self
-    */
+   * @param int
+   * @return self
+   */
   public function setItemCount($count)
   {
     $this->paginator->setItemCount($count);
@@ -107,9 +108,9 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param int
-    * @return self
-    */
+   * @param int
+   * @return self
+   */
   public function setItemsPerPage($num)
   {
     $this->paginator->setItemsPerPage($num);
@@ -117,9 +118,9 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param string
-    * @return self
-    */
+   * @param string
+   * @return self
+   */
   public function setPaginatorTemplate($template)
   {
     $this->paginatorTemplate = $template;
@@ -127,9 +128,9 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @param translator
-    * @return self
-    */
+   * @param translator
+   * @return self
+   */
   public function setTranslator(\Kdyby\Translation\Translator $translator)
   {
     $this->translator = $translator;
@@ -138,12 +139,13 @@ class VisualPaginator extends Control
 
   /* ******************** */
 
-	/**
-    * @return Nette\Utils\Paginator
-    */
+  /**
+   * @return Nette\Utils\Paginator
+   */
   public function getPaginator()
   {
-    if(!$this->paginator){
+    if(!$this->paginator)
+    {
       $this->paginator = new Paginator;
     }
 
@@ -153,8 +155,8 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @return int
-    */
+   * @return int
+   */
   public function getItemsPerPage()
   {
     if($this->session)
@@ -162,9 +164,12 @@ class VisualPaginator extends Control
       $request = $this->presenter->getPresenter()->getRequest();
       $presenterName = $request->getPresenterName();
 
-      if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->getItemsPerPageList())){
+      if(isSet($this->session->$presenterName) && in_Array($this->session->$presenterName,$this->getItemsPerPageList()))
+      {
         $this->paginator->setItemsPerPage($this->session->$presenterName);
-      }else{
+      }
+      else
+      {
         unSet($this->session->$presenterName);
       }
     }
@@ -173,32 +178,32 @@ class VisualPaginator extends Control
   }
 
   /**
-    * @return int
-    */
+   * @return int
+   */
   public function getOffset()
   {
     return $this->paginator->getOffset();
   }
 
   /**
-    * @return array
-    */
+   * @return array
+   */
   public function getItemsPerPageList()
   {
     return $this->itemsPerPageList;
   }
 
   /**
-    * @return string
-    */
+   * @return string
+   */
   public function getPaginatorTemplate()
   {
     return $this->paginatorTemplate;
   }
 
   /**
-    * @return string
-    */
+   * @return string
+   */
   public function getDir()
   {
     return __DIR__;
@@ -207,8 +212,8 @@ class VisualPaginator extends Control
   /* ******************** */
 
   /**
-    * @param  array
-    */
+   * @param  array
+   */
   public function loadState(array $params)
   {
     parent::loadState($params);
@@ -219,19 +224,23 @@ class VisualPaginator extends Control
   }
 
   /**
-    * render
-    */
+   * render
+   */
   public function render()
   {
     $this->verifyingData();
 
-    if($this->canSetItemsPerPage){
+    if($this->canSetItemsPerPage)
+    {
       $this["itemsPerPage"]->setDefaults(["itemsPerPage" => $this->paginator->getItemsPerPage()]);
     }
 
-    if($this->paginator->pageCount<2){
+    if($this->paginator->pageCount<2)
+    {
       $arr = array($this->paginator->page);
-    }else{
+    }
+    else
+    {
       $arr = range(max($this->paginator->firstPage,$this->paginator->page-3),min($this->paginator->lastPage,$this->paginator->page+3));
       $count = 4;
       $quotient = ($this->paginator->pageCount-1)/$count;
@@ -254,9 +263,8 @@ class VisualPaginator extends Control
   /* ******************** */
 
   /**
-    * itemsPerPage component
-    * @return Nette\Application\UI\Form
-    */
+   * @return Nette\Application\UI\Form
+   */
   protected function createComponentItemsPerPage()
   {
     $form = new Form;
@@ -267,17 +275,19 @@ class VisualPaginator extends Control
 
     $form->addSubmit("set");
 
-    $form->onSuccess[] = $this->itemsPerPageSuccess;
+    $form->onSuccess[] = [$this,"itemsPerPageSuccess"];
 
     return $form;
   }
 
   /**
-    * @param Nette\Application\UI\Form
-    */
+   * @param Nette\Application\UI\Form
+   * @param array
+   */
   public function itemsPerPageSuccess(Form $form,$values)
   {
-    if($this->session){
+    if($this->session)
+    {
       $request = $this->presenter->getPresenter()->getRequest();
       $presenterName = $request->getPresenterName();
       $this->session->$presenterName = $values->itemsPerPage;
@@ -287,11 +297,12 @@ class VisualPaginator extends Control
   }
 
   /**
-    * verifyingData
-    */
+   * verifyingData
+   */
   private function verifyingData()
   {
-    if($this->canSetItemsPerPage && !in_Array($this->getItemsPerPage(),$this->getItemsPerPageList())){
+    if($this->canSetItemsPerPage && !in_Array($this->getItemsPerPage(),$this->getItemsPerPageList()))
+    {
       throw new \Nette\InvalidArgumentException("Items per page list haven't value '".$this->getItemsPerPage()."', which you set in 'setItemsPerPage()' option.");
     }
   }
