@@ -28,7 +28,6 @@ final class HomePresenter extends BasePresenter
   }
 
   /**
-   * paginator component
    * @return AlesWita\Components\VisualPaginator
    */
   protected function createComponentPaginator()
