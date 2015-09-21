@@ -10,30 +10,31 @@ $ composer require aleswita/visualpaginator:dev-master
 ## Usage
 #### Presenter
 ```php
+use AlesWita\Components\VisualPaginator;
+
+
 final class HomePresenter extends BasePresenter
 {
-  ...
-  ...
+	...
+	...
 
-  /**
-   * renderDefault
-   */
-  public function renderDefault()
-  {
-    $dataSource = $this->model->dataSource();
-    $this["paginator"]->setItemCount($dataSource->count());
-    $dataSource->applyLimit($this["paginator"]->getItemsPerPage(),$this["paginator"]->getOffset());
+	public function renderDefault()
+	{
+		$dataSource = $this->model->dataSource();
+		$this["paginator"]->setItemCount($dataSource->count());
+		$dataSource->applyLimit($this["paginator"]->getItemsPerPage(), $this["paginator"]->getOffset());
 
-    $this->template->items = $dataSource;
-  }
+		$this->template->items = $dataSource;
+	}
 
-  /**
-   * @return AlesWita\Components\VisualPaginator
-   */
-  protected function createComponentPaginator()
-  {
-    return $visualPaginator = new \AlesWita\Components\VisualPaginator;
-  }
+	/**
+	 * @return AlesWita\Components\VisualPaginator
+	 */
+	protected function createComponentPaginator()
+	{
+		// VisualPaginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP and TEMPLATE_BOOTSTRAP_AJAX
+		return $visualPaginator = new VisualPaginator(VisualPaginator::TEMPLATE_BOOTSTRAP);
+	}
 }
 ```
 #### Template
@@ -43,27 +44,30 @@ final class HomePresenter extends BasePresenter
 
 
 #### More options
-You can set option, when user can set manualy items per page:
+You can set option, when user can set manualy items per page and you can use first parameter to change default options for items per page in select list:
 ```php
 $visualPaginator->canSetItemsPerPage();
+$visualPaginator->canSetItemsPerPage([10 => "10", 12 => "12", 15 => "15"]);
 ```
 
-You can change default options for items per page in select list:
-```php
-$visualPaginator->canSetItemsPerPage([10 => 10,12 => 12,15 => 15]);
-```
-
-You can set **Nette\Http\Session** to pernament save user items per page
+If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies (separated by module / presenter / action)
 ```php
 $visualPaginator->setSession($this->session);
 ```
 
-You can change render template:
+If you need special render template, you can use **setPaginatorTemplate** method
 ```php
-$visualPaginator->setPaginatorTemplate(__DIR__."/template.latte");
+$visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 ```
 
-You can change default values for page and count items per page:
+You can change default value for **page** and **items per page**:
 ```php
+$visualPaginator->setPage(2);
 $visualPaginator->setDefaultItemsPerPage(100);
+```
+
+If you are like using **ajax** for paginate, don't worry and set snippets to redraw
+```php
+$visualPaginator->setSnippet("table");
+$visualPaginator->setSnippet("paginator");
 ```
