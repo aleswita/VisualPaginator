@@ -60,13 +60,7 @@ If you need special render template, you can use **setPaginatorTemplate** method
 $visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 ```
 
-You can change default value for **page** and **items per page**:
-```php
-$visualPaginator->setPage(2);
-$visualPaginator->setDefaultItemsPerPage(100);
-```
-
-If you are like using **ajax** for paginate, don't worry and set snippets to redraw
+If you are like using **ajax** for paginate, don't worry and set snippets for redraw
 ```php
 $visualPaginator->setSnippet("table");
 $visualPaginator->setSnippet("paginator");
