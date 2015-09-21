@@ -55,12 +55,12 @@ If you set **Nette\Http\Session** object, paginator save the value **items per p
 $visualPaginator->setSession($this->session);
 ```
 
-If you need special render template, you can use **setPaginatorTemplate** method
+If you need special render template, you can use **setPaginatorTemplate** method:
 ```php
 $visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 ```
 
-If you are like using **ajax** for paginate, don't worry and set snippets for redraw
+If you are like using **ajax** for paginate, don't worry and set snippets for redraw:
 ```php
 $visualPaginator->setSnippet("table");
 $visualPaginator->setSnippet("paginator");
