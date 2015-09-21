@@ -90,7 +90,7 @@ class VisualPaginator extends Application\UI\Control
 		if ($this->session !== NULL) {
 			$foo = $this->getSessionArray();
 
-			if (isset($this->sessionSection[$foo["module"]][$foo["presenter"]][$foo["action"]]) && in_array($this->sessionSection[$foo["module"]][$foo["presenter"]][$foo["action"]], $this->getItemsPerPageList())) {
+			if (isset($this->sessionSection[$foo["module"]][$foo["presenter"]][$foo["action"]]) && in_array($this->sessionSection[$foo["module"]][$foo["presenter"]][$foo["action"]], array_keys($this->getItemsPerPageList()))) {
 				$this->setItemsPerPage($this->sessionSection[$foo["module"]][$foo["presenter"]][$foo["action"]]);
 				return $this->itemsPerPage;
 			} else {
@@ -121,7 +121,7 @@ class VisualPaginator extends Application\UI\Control
 	/**
 	 * @return bool
 	 */
-    public function getCanSetItemsPerPage()
+	public function getCanSetItemsPerPage()
 	{
 		return $this->canSetItemsPerPage;
 	}
@@ -186,7 +186,7 @@ class VisualPaginator extends Application\UI\Control
 	{
 		$presenterName = $this->presenter->getRequest()->getPresenterName();
 		$presenterParameters = $this->presenter->getRequest()->getParameters();
-	    $match = Utils\Strings::match($presenterName, "~^([a-zA-Z0-9]+):([a-zA-Z0-9]+)$~");
+		$match = Utils\Strings::match($presenterName, "~^([a-zA-Z0-9]+):([a-zA-Z0-9]+)$~");
 		return ["module" => $match[1], "presenter" => $match[2], "action" => $presenterParameters["action"]];
 	}
 
@@ -358,6 +358,8 @@ class VisualPaginator extends Application\UI\Control
 			foreach ($this->getSnippets() as $snippet) {
 				$this->parent->redrawControl($snippet);
 			}
+
+			$this->redrawControl("paginator");
 		}
 	}
 
@@ -369,7 +371,7 @@ class VisualPaginator extends Application\UI\Control
 		$form = new Application\UI\Form;
 
 		$form->addSelect("itemsPerPage", NULL, $this->getItemsPerPageList())
-        	//->setAttribute("onchange", "this.form.submit()")
+			//->setAttribute("onchange", "this.form.submit()")
 			->setRequired();
 
 		$form->addSubmit("set");
@@ -385,13 +387,13 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function itemsPerPageSuccess(Application\UI\Form $form, $values)
 	{
-    	$this->setItemsPerPage($values->itemsPerPage);
+		$this->setItemsPerPage($values->itemsPerPage);
 		$this->handlePaginate();
 	}
 
 	private function verifyingData()
 	{
-		if ($this->getCanSetItemsPerPage() && !in_array($this->getItemsPerPage(), $this->getItemsPerPageList())) {
+		if ($this->getCanSetItemsPerPage() && !in_array($this->getItemsPerPage(), array_keys($this->getItemsPerPageList()))) {
 			throw new \Nette\InvalidArgumentException("Items per page list haven't value '" . $this->getItemsPerPage() . "', which you set in 'setItemsPerPage()' methot.");
 		}
 	}
