@@ -358,7 +358,6 @@ class VisualPaginator extends Application\UI\Control
 			foreach ($this->getSnippets() as $snippet) {
 				$this->parent->redrawControl($snippet);
 			}
-
 			$this->redrawControl("paginator");
 		}
 	}
