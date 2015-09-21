@@ -1,17 +1,17 @@
-{if $paginator->isFirst()}<em>&laquo;</em>{else}<a href="{link this page => $paginator->page-1}">&laquo;</a>{/if}
+{if $paginator->isFirst()}<em>&laquo;</em>{else}<a href="{link paginate!, page => $paginator->page - 1}">&laquo;</a>{/if}
 
 {foreach $steps as $step}
- <strong><a href="{link this page => $step}">{$step}</a></strong>
- {if $iterator->nextValue>$step+1}<em>&hellip;</em>{/if}
+ <strong><a href="{link paginate!, page => $step}">{$step}</a></strong>
+ {if $iterator->nextValue > $step + 1}<em>&hellip;</em>{/if}
 {/foreach}
 
-{if $paginator->isLast()}<em>&raquo;</em>{else}<a href="{link this page => $paginator->page+1}">&raquo;</a>{/if}
+{if $paginator->isLast()}<em>&raquo;</em>{else}<a href="{link paginate!, page => $paginator->page + 1}">&raquo;</a>{/if}
 
 {if $itemsPerPage}
- {form itemsPerPage class => "form-inline"}
+ {form itemsPerPage, class => "form-inline"}
   <table>
    <tr>
-    <td><strong>{$template->translate("Items per page")}</strong></td><td>{input itemsPerPage}</td><td>{input set value => $template->translate(Set)}</td>
+    <td><strong>{$texts[itemsPerPage]}</strong></td><td>{input itemsPerPage}</td><td>{input set value => $texts[send]}</td>
    </tr>
   </table> 
  {/form}
