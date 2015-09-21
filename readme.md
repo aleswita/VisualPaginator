@@ -63,5 +63,4 @@ $visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 If you are like using **ajax** for paginate, don't worry and set snippets for redraw:
 ```php
 $visualPaginator->setSnippet("table");
-$visualPaginator->setSnippet("paginator");
 ```
