@@ -50,7 +50,7 @@ $visualPaginator->canSetItemsPerPage();
 $visualPaginator->canSetItemsPerPage([10 => "10", 12 => "12", 15 => "15"]);
 ```
 
-If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies (separated by module / presenter / action)
+If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies (separated by module / presenter / action):
 ```php
 $visualPaginator->setSession($this->session);
 ```
