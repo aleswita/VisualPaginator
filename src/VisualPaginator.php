@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of the AlesWita\VisualPaginator
+ * This file is part of the AlesWita\Components\VisualPaginator
  * Copyright (c) 2015 Ales Wita (aleswita+github@gmail.com)
  */
 
