@@ -21,12 +21,11 @@ use Nette\Utils;
 class VisualPaginator extends Application\UI\Control
 {
 	/** default session section constant */
-	const SESSION_SECTION = "AlesWita\\Components\\VisualPaginator";
+	const SESSION_SECTION = "Visual-Paginator";
 
 	/** templates constants */
 	const TEMPLATE_NORMAL = "template.latte";
-	const TEMPLATE_BOOTSTRAP = "bootstrap.latte";
-	const TEMPLATE_BOOTSTRAP_AJAX = "bootstrap-ajax.latte";
+	const TEMPLATE_BOOTSTRAP_V3 = "bootstrap-v3.latte";
 
 	/* ******************** */
 
@@ -50,6 +49,9 @@ class VisualPaginator extends Application\UI\Control
 	/** @var itemsPerPageList */
 	private $itemsPerPageList = [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
 
+	/** @var itemsPerPageReposity */
+	private $itemsPerPageReposity = NULL;
+
 	/** @var paginator */
 	private $paginator = NULL;
 
@@ -61,6 +63,9 @@ class VisualPaginator extends Application\UI\Control
 		"send" => "Send",
 		"itemsPerPage" => "Items per page"
 	];
+
+	/** @var ajax */
+	private $ajax = FALSE;
 
 	/** @var snippets */
 	private $snippets = [];
@@ -93,7 +98,7 @@ class VisualPaginator extends Application\UI\Control
 	public function getItemsPerPage()
 	{
 		if ($this->session !== NULL) {
-			$foo = $this->getSessionName();
+			$foo = $this->getSessionReposity();
 
 			if (isset($this->sessionSection->$foo) && in_array($this->sessionSection->$foo, array_keys($this->getItemsPerPageList()))) {
 				$this->setItemsPerPage($this->sessionSection->$foo);
@@ -110,7 +115,7 @@ class VisualPaginator extends Application\UI\Control
 	/**
 	 * @return Nette\Http\Session
 	 */
-	public function getSession()
+	private function getSession()
 	{
 		return $this->session;
 	}
@@ -118,7 +123,7 @@ class VisualPaginator extends Application\UI\Control
 	/**
 	 * @return Nette\Http\SessionSection
 	 */
-	public function getSessionSection()
+	private function getSessionSection()
 	{
 		return $this->sessionSection;
 	}
@@ -137,6 +142,14 @@ class VisualPaginator extends Application\UI\Control
 	public function getItemsPerPageList()
 	{
 		return $this->itemsPerPageList;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getItemsPerPageReposity()
+	{
+		return $this->itemsPerPageReposity;
 	}
 
 	/**
@@ -169,6 +182,14 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function getAjax()
+	{
+		return $this->ajax;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getSnippets()
@@ -187,18 +208,22 @@ class VisualPaginator extends Application\UI\Control
 	/**
 	 * @return string
 	 */
-	public function getSessionName()
+	private function getSessionReposity()
 	{
-		$presenterName = $this->presenter->getRequest()->getPresenterName();
-		$presenterParameters = $this->presenter->getRequest()->getParameters();
-		$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9]+):([a-zA-Z0-9]+))|([a-zA-Z0-9]+)$~");
-
-		if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {
-			return $match[2] . "-" . $match[3] . "-" . $presenterParameters["action"];
-		} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {
-			return $match[4] . "-" . $presenterParameters["action"];
+		if ($this->itemsPerPageReposity !== NULL) {
+			return $this->getItemsPerPageReposity();
 		} else {
-			return "default";
+			$presenterName = $this->presenter->getRequest()->getPresenterName();
+			$presenterParameters = $this->presenter->getRequest()->getParameters();
+			$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9]+):([a-zA-Z0-9]+))|([a-zA-Z0-9]+)$~");
+
+			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {
+				return $match[2] . "-" . $match[3] . "-" . $presenterParameters["action"];
+			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {
+				return $match[4] . "-" . $presenterParameters["action"];
+			} else {
+				return "default";
+			}
 		}
 	}
 
@@ -231,7 +256,7 @@ class VisualPaginator extends Application\UI\Control
 	public function setItemsPerPage($num)
 	{
 		if ($this->session !== NULL) {
-			$foo = $this->getSessionName();
+			$foo = $this->getSessionReposity();
 			$this->sessionSection->$foo = (int) $num;
 		}
 		$this->itemsPerPage = (int) $num;
@@ -239,13 +264,25 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
-	 * @param Nette\Http\Session
 	 * @param string
 	 * @return self
 	 */
-	public function setSession(Http\Session $session, $section = self::SESSION_SECTION)
+	public function setItemsPerPageReposity($itemsPerPageReposity)
+	{
+		$this->itemsPerPageReposity = Utils\Strings::lower($itemsPerPageReposity);
+		return $this;
+	}
+
+	/**
+	 * @param Nette\Http\Session
+	 * @param string
+	 * @param string
+	 * @return self
+	 */
+	public function setSession(Http\Session $session, $itemsPerPageReposity = NULL, $section = self::SESSION_SECTION)
 	{
 		$this->session = $session;
+		$this->setItemsPerPageReposity($itemsPerPageReposity);
 		$this->sessionSection = $session->getSection($section);
 		return $this;
 	}
@@ -265,11 +302,17 @@ class VisualPaginator extends Application\UI\Control
 
 	/**
 	 * @param array
+	 * @param bool
 	 * @return self
 	 */
-	public function setItemsPerPageList(array $list)
+	public function setItemsPerPageList(array $list, $merge = FALSE)
 	{
-		$this->itemsPerPageList = $list;
+		if ($merge) {
+			$this->itemsPerPageList = array_merge($this->itemsPerPageList, $list);
+			ksort($this->itemsPerPageList);
+		} else {
+			$this->itemsPerPageList = $list;
+		}
 		return $this;
 	}
 
@@ -295,11 +338,24 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
+	 * @param bool
+	 * @return self
+	 */
+	public function setAjax($ajax = TRUE)
+	{
+		$this->ajax = $ajax;
+		return $this;
+	}
+
+	/**
 	 * @param string
 	 * @return self
 	 */
 	public function setSnippet($snippet)
 	{
+		if(!$this->ajax) {
+			$this->ajax = TRUE;
+		}
 		if (is_array($snippet)) {
 			$this->setSnippets($snippet);
 		} else {
@@ -314,6 +370,9 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setSnippets(array $snippets)
 	{
+		if(!$this->ajax) {
+			$this->ajax = TRUE;
+		}
 		$this->snippets = array_merge($this->snippets, $snippets);
 		return $this;
 	}
@@ -341,10 +400,16 @@ class VisualPaginator extends Application\UI\Control
 		$this->getPaginator()->itemsPerPage = $this->getItemsPerPage();
 	}
 
+	/**
+	 * @throw Exception
+	 */
 	public function render()
 	{
+        if ($this->getItemsPerPageList() !== array_filter($this->getItemsPerPageList(), function ($s) {return is_numeric($s);})) {
+			throw new \Exception("Keys in \$itemsPerPageList array must be numeric.");
+		}
 		if ($this->getCanSetItemsPerPage() && !in_array($this->getItemsPerPage(), array_keys($this->getItemsPerPageList()))) {
-			throw new \Exception("Items per page list haven't value '" . $this->getItemsPerPage() . "', which you set in 'setItemsPerPage()' methot.");
+			throw new \Exception("\$itemsPerPageList array haven't value '" . $this->getItemsPerPage() . ".");
 		}
 
 		$paginator = $this->getPaginator();
@@ -366,10 +431,11 @@ class VisualPaginator extends Application\UI\Control
 			sort($foo);
 		}
 
-		$this->template->paginator = $paginator;
 		$this->template->steps = array_values(array_unique($foo));
 		$this->template->itemsPerPage = $this->getCanSetItemsPerPage();
+		$this->template->paginator = $paginator;
 		$this->template->texts = $this->getTexts();
+		$this->template->ajax = $this->ajax;
 
 		$this->template->setFile($this->getPaginatorTemplate());
 		$this->template->render();
