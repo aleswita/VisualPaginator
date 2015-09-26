@@ -217,9 +217,9 @@ class VisualPaginator extends Application\UI\Control
 			$presenterParameters = $this->presenter->getRequest()->getParameters();
 			$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9]+):([a-zA-Z0-9]+))|([a-zA-Z0-9]+)$~");
 
-			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {
+			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {// presenter in module
 				return $match[2] . "-" . $match[3] . "-" . $presenterParameters["action"];
-			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {
+			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {// presenter without module
 				return $match[4] . "-" . $presenterParameters["action"];
 			} else {
 				return "default";
@@ -289,12 +289,13 @@ class VisualPaginator extends Application\UI\Control
 
 	/**
 	 * @param array
+	 * @param bool
 	 * @return self
 	 */
-	public function canSetItemsPerPage(array $list = NULL)
+	public function canSetItemsPerPage(array $list = NULL, $merge = FALSE)
 	{
 		if ($list !== NULL) {
-			$this->setItemsPerPageList($list);
+			$this->setItemsPerPageList($list, $merge);
 		}
 		$this->canSetItemsPerPage = TRUE;
 		return $this;
