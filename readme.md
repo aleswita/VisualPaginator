@@ -32,8 +32,8 @@ final class HomePresenter extends BasePresenter
 	 */
 	protected function createComponentPaginator()
 	{
-		// VisualPaginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP and TEMPLATE_BOOTSTRAP_AJAX
-		return $visualPaginator = new VisualPaginator(VisualPaginator::TEMPLATE_BOOTSTRAP);
+		// VisualPaginator have 2 predefined templates: TEMPLATE_NORMAL and TEMPLATE_BOOTSTRAP_V3
+		return $visualPaginator = new VisualPaginator(VisualPaginator::TEMPLATE_BOOTSTRAP_V3);
 	}
 }
 ```
@@ -47,10 +47,10 @@ final class HomePresenter extends BasePresenter
 You can set option, when user can set manualy items per page and you can use first parameter to change default options for items per page in select list:
 ```php
 $visualPaginator->canSetItemsPerPage();
-$visualPaginator->canSetItemsPerPage([10 => "10", 12 => "12", 15 => "15"]);
+$visualPaginator->canSetItemsPerPage([10 => "10", 12 => "12", 15 => "15"]);// keys in array must be numeric
 ```
 
-If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies (separated by module / presenter / action):
+If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies:
 ```php
 $visualPaginator->setSession($this->session);
 ```
