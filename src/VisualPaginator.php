@@ -405,7 +405,7 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function render()
 	{
-        if ($this->getItemsPerPageList() !== array_filter($this->getItemsPerPageList(), function ($s) {return is_numeric($s);})) {
+		if ($this->getItemsPerPageList() !== array_filter($this->getItemsPerPageList(), function ($s) {return is_numeric($s);})) {
 			throw new \Exception("Keys in \$itemsPerPageList array must be numeric.");
 		}
 		if ($this->getCanSetItemsPerPage() && !in_array($this->getItemsPerPage(), array_keys($this->getItemsPerPageList()))) {
