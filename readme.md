@@ -80,14 +80,29 @@ Session namespace for paginator in default is "Visual-Paginator", for change you
 $visualPaginator->setSession($this->session, "paginator", "my-namespace");
 ```
 
-#### Template
-For custom template use **setPaginatorTemplate** method:
-```php
-$visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
-```
-
 #### Ajax
 If you are like using **ajax** for paginate, don't worry and set snippets for redraw:
 ```php
 $visualPaginator->setSnippet("table");
+// second choice
+$visualPaginator->setSnippet(["table", "menu"]);
+// third choice
+$visualPaginator->setSnippets(["table", "menu"]);
+```
+And if you need disabled ajax, use **setAjax** method (do not use this methot for enable, because if you set some snippet, paginator enable ajax automaticaly):
+```php
+$visualPaginator->setAjax(FALSE);
+```
+
+#### Language
+Because that much people using different translators and methods for multi-language applications, so paginator have special method for translate their texts:
+```php
+$visualPaginator->setText("send", "Odeslat")
+	->setText("itemsPerPage", "Položek na stránku");
+```
+
+#### Template
+For custom template use **setPaginatorTemplate** method:
+```php
+$visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 ```
