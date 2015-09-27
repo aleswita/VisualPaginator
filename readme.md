@@ -8,6 +8,7 @@ $ composer require aleswita/visualpaginator:dev-master
 ```
 
 ## Usage
+
 #### Presenter
 ```php
 use AlesWita\Components\VisualPaginator;
@@ -37,29 +38,55 @@ final class HomePresenter extends BasePresenter
 	}
 }
 ```
+
 #### Template
 ```html
 {control paginator}
 ```
 
 
-#### More options
-You can set option, when user can set manualy items per page and you can use first parameter to change default options for items per page in select list:
+## More options
+
+#### Items per page
+Visitors can select from list, how many items shows. Predefined values for choice are 10, 20, 30, 40, 50 and 100.
 ```php
 $visualPaginator->canSetItemsPerPage();
-$visualPaginator->canSetItemsPerPage([10 => "10", 12 => "12", 15 => "15"]);// keys in array must be numeric
 ```
+You can set your choices by using first parameter (remember, keys in array must be numeric):
+```php
+$visualPaginator->canSetItemsPerPage([10 => "10", 15 => "15"]);
+// second choice
+$visualPaginator->setItemsPerPageList([10 => "10", 15 => "15"]);
+```
+If you use second parameter in **canSetItemsPerPage** or **setItemsPerPageList** methods, array merged with already setted array:
+```php
+$visualPaginator->canSetItemsPerPage([60 => "60", 200 => "200"], TRUE);
+```
+Result is [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", **60 => "60"**, 100 => "100", **200 => "200"**].
 
-If you set **Nette\Http\Session** object, paginator save the value **items per page** to cookies:
+#### Session
+If you set **Nette\Http\Session** object, paginator save the value from **items per page** form to session:
 ```php
 $visualPaginator->setSession($this->session);
 ```
+If you have more than one paginators on your page, items per page saved separated by module / presenter / action. For all paginator saved to one property, use second parameter in **setSession** method:
+```php
+$visualPaginator->setSession($this->session, "paginator");
+// second choice
+$visualPaginator->setItemsPerPageReposity("paginator");
+```
+Session namespace for paginator in default is "Visual-Paginator", for change you can use third parameter in **setSession** method:
+```php
+$visualPaginator->setSession($this->session, "paginator", "my-namespace");
+```
 
-If you need special render template, you can use **setPaginatorTemplate** method:
+#### Template
+For custom template use **setPaginatorTemplate** method:
 ```php
 $visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
 ```
 
+#### Ajax
 If you are like using **ajax** for paginate, don't worry and set snippets for redraw:
 ```php
 $visualPaginator->setSnippet("table");
