@@ -89,7 +89,7 @@ $visualPaginator->setSnippet(["table", "menu"]);
 // third choice
 $visualPaginator->setSnippets(["table", "menu"]);
 ```
-And if you need disabled ajax, use **setAjax** method (do not use this methot for enable, because if you set some snippet, paginator enable ajax automaticaly):
+And if you need disabled ajax, use **setAjax** method (do not use this methot for enable, because if you set some snippet, paginator enable ajax automatically):
 ```php
 $visualPaginator->setAjax(FALSE);
 ```
