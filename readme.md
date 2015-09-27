@@ -48,7 +48,7 @@ final class HomePresenter extends BasePresenter
 ## More options
 
 #### Items per page
-Visitors can select from list, how many items shows. Predefined values for choice are 10, 20, 30, 40, 50 and 100.
+Visitors can select from list, how many items shows. Predefined values for choice are 10, 20, 30, 40, 50 and 100:
 ```php
 $visualPaginator->canSetItemsPerPage();
 ```
