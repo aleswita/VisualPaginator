@@ -218,9 +218,9 @@ class VisualPaginator extends Application\UI\Control
 			$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9]+):([a-zA-Z0-9]+))|([a-zA-Z0-9]+)$~");
 
 			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {// presenter in module
-				return $match[2] . "-" . $match[3] . "-" . $presenterParameters["action"];
+				return Utils\Strings::lower($match[2] . "-" . $match[3] . "-" . $presenterParameters["action"]);
 			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {// presenter without module
-				return $match[4] . "-" . $presenterParameters["action"];
+				return Utils\Strings::lower($match[4] . "-" . $presenterParameters["action"]);
 			} else {
 				return "default";
 			}
