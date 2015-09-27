@@ -354,8 +354,8 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setSnippet($snippet)
 	{
-		if(!$this->ajax) {
-			$this->ajax = TRUE;
+		if(!$this->getAjax()) {
+			$this->setAjax();
 		}
 		if (is_array($snippet)) {
 			$this->setSnippets($snippet);
@@ -371,8 +371,8 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setSnippets(array $snippets)
 	{
-		if(!$this->ajax) {
-			$this->ajax = TRUE;
+		if(!$this->getAjax()) {
+			$this->setAjax();
 		}
 		$this->snippets = array_merge($this->snippets, $snippets);
 		return $this;
