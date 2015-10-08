@@ -397,7 +397,6 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function loadState(array $params)
 	{
-		dump($this->getSessionReposity());
 		parent::loadState($params);
 		$this->getPaginator()->page = $this->getPage();
 		$this->setPage($this->getPaginator()->page);
