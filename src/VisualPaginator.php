@@ -269,7 +269,9 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setItemsPerPageReposity($itemsPerPageReposity)
 	{
-		$this->itemsPerPageReposity = Utils\Strings::lower($itemsPerPageReposity);
+		if ($itemsPerPageReposity !== NULL) {
+			$this->itemsPerPageReposity = Utils\Strings::lower($itemsPerPageReposity);
+		}
 		return $this;
 	}
 
@@ -395,6 +397,7 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function loadState(array $params)
 	{
+		dump($this->getSessionReposity());
 		parent::loadState($params);
 		$this->getPaginator()->page = $this->getPage();
 		$this->setPage($this->getPaginator()->page);
