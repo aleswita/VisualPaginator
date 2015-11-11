@@ -215,11 +215,11 @@ class VisualPaginator extends Application\UI\Control
 		} else {
 			$presenterName = $this->presenter->getRequest()->getPresenterName();
 			$presenterParameters = $this->presenter->getRequest()->getParameters();
-			$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9]+):([a-zA-Z0-9]+))|([a-zA-Z0-9]+)$~");
+			$match = Utils\Strings::match($presenterName, "~^(([a-zA-Z0-9_]+):([a-zA-Z0-9_]+))|([a-zA-Z0-9_]+)$~");
 
-			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {// presenter in module
+			if (isset($match[2]) && isset($match[3]) && $match[2] !== NULL && $match[3] !== NULL && $match[2] !== "" && $match[3] !== "") {// module:presenter
 				return Utils\Strings::lower($match[2] . "-" . $match[3] . "-" . $presenterParameters["action"]);
-			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {// presenter without module
+			} elseif (isset($match[4]) && $match[4] !== NULL && $match[4] !== "") {// presenter
 				return Utils\Strings::lower($match[4] . "-" . $presenterParameters["action"]);
 			} else {
 				return "default";
