@@ -61,8 +61,8 @@ $visualPaginator->setItemsPerPageList([10 => "10", 15 => "15"]);
 If you use second parameter in **canSetItemsPerPage** or **setItemsPerPageList** methods, array merged with already setted array:
 ```php
 $visualPaginator->canSetItemsPerPage([60 => "60", 200 => "200"], TRUE);
+// result is [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 60 => "60", 100 => "100", 200 => "200"]
 ```
-Result is [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", **60 => "60"**, 100 => "100", **200 => "200"**].
 
 #### Session
 If you set **Nette\Http\Session** object, paginator save the value from **items per page** form to session:
