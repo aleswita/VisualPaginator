@@ -235,9 +235,9 @@ class VisualPaginator extends Application\UI\Control
 		return __DIR__;
 	}
 
-	/* ********** getters - end ********** */
+	/** ********** getters - end ********** */
 
-	/* ********** setters - start ********** */
+	/** ********** setters - start ********** */
 
 	/**
 	 * @param int
@@ -351,7 +351,24 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
+	 * @param array
+	 * @param bool
+	 * @return self
+	 */
+	public function setSnippets(array $snippets, $merge = TRUE)
+	{
+		if (!$merge) {
+			$this->snippets = [];
+		}
+		foreach($snippets as $snippet) {
+			$this->setSnippet($snippet, $merge);
+		}
+		return $this;
+	}
+
+	/**
 	 * @param string
+	 * @param bool
 	 * @return self
 	 */
 	public function setSnippet($snippet)
@@ -359,24 +376,9 @@ class VisualPaginator extends Application\UI\Control
 		if(!$this->getAjax()) {
 			$this->setAjax();
 		}
-		if (is_array($snippet)) {
-			$this->setSnippets($snippet);
-		} else {
+		if(!in_array($snippet, $this->snippets, TRUE)) {
 			$this->snippets[] = $snippet;
 		}
-		return $this;
-	}
-
-	/**
-	 * @param array
-	 * @return self
-	 */
-	public function setSnippets(array $snippets)
-	{
-		if(!$this->getAjax()) {
-			$this->setAjax();
-		}
-		$this->snippets = array_merge($this->snippets, $snippets);
 		return $this;
 	}
 
@@ -390,7 +392,7 @@ class VisualPaginator extends Application\UI\Control
 		return $this;
 	}
 
-	/* ********** setters - end ********** */
+	/** ********** setters - end ********** */
 
 	/**
 	 * @param array
