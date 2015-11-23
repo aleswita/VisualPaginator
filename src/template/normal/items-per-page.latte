@@ -1,0 +1,12 @@
+{snippet itemsPerPage}
+ {if $itemsPerPage}
+  {var $formClass = ($ajax ? "ajax" : NULL)}
+  {form itemsPerPage, class => $formClass}
+   <table>
+    <tr>
+     <td><strong>{$texts[itemsPerPage]}</strong></td><td>{input itemsPerPage}</td><td>{input set value => $texts[send]}</td>
+    </tr>
+   </table>
+  {/form}
+ {/if}
+{/snippet}
