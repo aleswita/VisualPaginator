@@ -102,7 +102,4 @@ $visualPaginator->setText("send", "Odeslat")
 ```
 
 #### Template
-For custom template use **setPaginatorTemplate** method:
-```php
-$visualPaginator->setPaginatorTemplate(__DIR__ . "/template.latte");
-```
+N/A
