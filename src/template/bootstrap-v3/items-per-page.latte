@@ -1,0 +1,14 @@
+{snippet itemsPerPage}
+ {if $itemsPerPage}
+  <div>
+   {var $formClass = ($ajax ? "ajax form-inline" : "form-inline")}
+   {form itemsPerPage, class => $formClass}
+    <div class="input-group">
+     <strong class="input-group-addon">{$texts[itemsPerPage]}</strong>
+     {input itemsPerPage, class => "form-control"}
+     <span class="input-group-btn">{input set class => "btn btn-default", value => $texts[send]}</span>
+    </div>
+   {/form}
+  </div>
+ {/if}
+{/snippet}
