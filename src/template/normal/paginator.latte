@@ -1,0 +1,10 @@
+{snippet paginator}
+ {if $paginator->isFirst()}<em>&laquo;</em>{else}<a href="{link paginate!, page => $paginator->page - 1}" n:class="$ajax ? ajax">&laquo;</a>{/if}
+
+ {foreach $steps as $step}
+  <strong><a href="{link paginate!, page => $step}" n:class="$ajax ? ajax">{$step}</a></strong>
+  {if $iterator->nextValue > $step + 1}<em>&hellip;</em>{/if}
+ {/foreach}
+
+ {if $paginator->isLast()}<em>&raquo;</em>{else}<a href="{link paginate!, page => $paginator->page + 1}" n:class="$ajax ? ajax">&raquo;</a>{/if}
+{/snippet}
