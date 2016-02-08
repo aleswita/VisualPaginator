@@ -90,8 +90,8 @@ class VisualPaginator extends Application\UI\Control
 		if ($this->paginator === NULL) {
 			$this->paginator = new Utils\Paginator;
 		}
-		$this->paginator->page = $this->page === NULL ? 1 : $this->page;
-		$this->paginator->itemsPerPage = $this->itemsPerPage === NULL ? 10 : $this->itemsPerPage;
+		$this->paginator->page = ($this->page === NULL ? 1 : $this->page);
+		$this->paginator->itemsPerPage = ($this->itemsPerPage === NULL ? 10 : $this->itemsPerPage);
 		return $this->paginator;
 	}
 
@@ -210,7 +210,6 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
-	 * @param string
 	 * @param string
 	 * @return self
 	 */
