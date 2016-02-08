@@ -38,10 +38,10 @@ class VisualPaginator extends Application\UI\Control
 	/** ******************** */
 
 	/** @persistent */
-	public $page = 1;
+	public $page;
 
 	/** @persistent */
-	public $itemsPerPage = 10;
+	public $itemsPerPage;
 
 	/** @var callable[] */
 	public $onPaginate;
@@ -90,8 +90,8 @@ class VisualPaginator extends Application\UI\Control
 		if ($this->paginator === NULL) {
 			$this->paginator = new Utils\Paginator;
 		}
-		$this->paginator->page = $this->page;
-		$this->paginator->itemsPerPage = $this->itemsPerPage;
+		$this->paginator->page = $this->page === NULL ? 1 : $this->page;
+		$this->paginator->itemsPerPage = $this->itemsPerPage === NULL ? 10 : $this->itemsPerPage;
 		return $this->paginator;
 	}
 
@@ -255,15 +255,15 @@ class VisualPaginator extends Application\UI\Control
 			}
 		}
 
+
 		$this->getPaginator()->page = $this->page;
 		$this->getPaginator()->itemsPerPage = $this->itemsPerPage;
 		$this->page = $this->getPaginator()->page;
 
-		if ($this->canSetItemsPerPage) {
-			$this["itemsPerPage"]->setDefaults([
-				"itemsPerPage" => $this->itemsPerPage
-			]);
-		}
+		$this["itemsPerPage"]->setDefaults([
+			"itemsPerPage" => $this->itemsPerPage
+		]);
+
 
 		if ($this->onPaginate !== NULL) {
 			if (is_array($this->onPaginate)) {
