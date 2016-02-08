@@ -223,7 +223,7 @@ class VisualPaginator extends Application\UI\Control
 	 * @param bool
 	 * @return self
 	 */
-	public function setAjax(bool $bool = TRUE): self {
+	public function setAjax(bool $bool): self {
 		$this->ajax = $bool;
 		return $this;
 	}
