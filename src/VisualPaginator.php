@@ -34,6 +34,11 @@ class VisualPaginator extends Application\UI\Control
 		"paginator" => __DIR__ . "/templates/bootstrap-v3/paginator.latte",
 		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v3/items-per-page.latte"
 	];
+	const TEMPLATE_BOOTSTRAP_V4 = [
+		"main" => __DIR__ . "/templates/bootstrap-v4/main.latte",
+		"paginator" => __DIR__ . "/templates/bootstrap-v4/paginator.latte",
+		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v4/items-per-page.latte"
+	];
 
 	/** ******************** */
 
