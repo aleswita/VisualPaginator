@@ -1,0 +1,12 @@
+{if $itemsPerPage}
+ {form itemsPerPage, class => ($ajax ? "ajax")}
+  <div class="row">
+   <div class="input-group col-md-2">
+    <span class="input-group-addon">{label itemsPerPage /}</span>
+    {input itemsPerPage, class => "form-control"}
+    <span class="input-group-btn">{input send, class => "btn btn-secondary"}</span>
+   </div>
+  </div>
+ {/form}
+ </div>
+{/if}
