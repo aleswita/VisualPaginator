@@ -33,7 +33,7 @@ final class HomePresenter extends BasePresenter
 	 */
 	protected function createComponentPaginator(): AlesWita\Components\VisualPaginato {
 		$vp = new VisualPaginator;
-		// paginator have 2 predefined templates: TEMPLATE_NORMAL and TEMPLATE_BOOTSTRAP_V3	
+		// paginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP_V3 and TEMPLATE_BOOTSTRAP_V4	
 		$vp->setPaginatorTemplate(VisualPaginator::TEMPLATE_BOOTSTRAP_V3);
 		
 		return $vp;
