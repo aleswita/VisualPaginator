@@ -1,4 +1,4 @@
-<ul class="pagination pagination-sm">
+<ul class="pagination">
  {if $paginator->isFirst()}<li class="page-item disabled"><span class="page-link">&laquo;</span></li>{else}<li class="page-item"><a n:href="this, page => $paginator->page - 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&laquo;</a></li>{/if}
 
  {foreach $steps as $step}
