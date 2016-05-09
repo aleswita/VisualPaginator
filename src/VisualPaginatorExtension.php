@@ -29,7 +29,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		$container = $this->getContainerBuilder();
 
 		$vp = $container->addDefinition($this->prefix("visualpaginator"))
-			->setClass("AlesWita\Components\VisualPaginator");
+			->setClass("AlesWita\\Components\\VisualPaginator");
 
 		if ($config["session"] !== NULL) {
 			$vp->addSetup('$service->setSession(?)', [$config["session"]]);
