@@ -269,13 +269,8 @@ class VisualPaginator extends Application\UI\Control
 			"itemsPerPage" => $this->itemsPerPage
 		]);
 
-
 		if ($this->onPaginate !== NULL) {
-			if (is_array($this->onPaginate)) {
-				foreach ($this->onPaginate as $handler) {
-					Utils\Callback::invoke($handler);
-				}
-			}
+			Utils\Callback::invoke($this->onPaginate);
 		}
 	}
 
