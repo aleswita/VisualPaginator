@@ -9,7 +9,6 @@ namespace AlesWita\Components;
 
 use Nette;
 use Nette\Application;
-use Nette\Http;
 use Nette\Utils;
 
 
@@ -161,7 +160,7 @@ class VisualPaginator extends Application\UI\Control
 	 * @param string
 	 * @return self
 	 */
-	public function setSession(Http\Session $session, string $itemsPerPageReposity = NULL, string $section = self::SESSION_SECTION): self {
+	public function setSession(Nette\Http\Session $session, string $itemsPerPageReposity = NULL, string $section = self::SESSION_SECTION): self {
 		$this->session = $session;
 		$this->sessionSection = $session->getSection($section);
 		if ($itemsPerPageReposity !== NULL) {
