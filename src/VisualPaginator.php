@@ -268,10 +268,6 @@ class VisualPaginator extends Application\UI\Control
 		$this["itemsPerPage"]->setDefaults([
 			"itemsPerPage" => $this->itemsPerPage
 		]);
-
-		if ($this->onPaginate !== NULL) {
-			Utils\Callback::invoke($this->onPaginate);
-		}
 	}
 
 	public function render()
@@ -351,11 +347,26 @@ class VisualPaginator extends Application\UI\Control
 
 		$form->onSuccess[] = function(Application\UI\Form $form, array $values){
 			$this->setItemsPerPage($values["itemsPerPage"]);
+			$this->handlePaginate();
+
 			if (!$this->presenter->isAjax()) {
 				$this->redirect("this");
 			}
 		};
 
 		return $form;
+	}
+
+	public function handlePaginate()
+	{
+		if ($this->onPaginate !== NULL) {
+			if (is_array($this->onPaginate)) {
+				foreach ($this->onPaginate as $handle) {
+					Utils\Callback::invoke($handle);
+				}
+			} else {
+				Utils\Callback::invoke($this->onPaginate);
+			}
+		}
 	}
 }
