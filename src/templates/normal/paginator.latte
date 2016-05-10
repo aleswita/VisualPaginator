@@ -1,8 +1,8 @@
-{if $paginator->isFirst()}<em>&laquo;</em>{else}<a n:href="this, page => $paginator->page - 1" n:class="$ajax ? ajax">&laquo;</a>{/if}
+{if $paginator->isFirst()}<em>&laquo;</em>{else}<a n:href="paginate!, page => $paginator->page - 1" n:class="$ajax ? ajax">&laquo;</a>{/if}
 
 {foreach $steps as $step}
- <strong><a n:href="this, page => $step" n:class="$ajax ? ajax">{$step}</a></strong>
+ <strong><a n:href="paginate!, page => $step" n:class="$ajax ? ajax">{$step}</a></strong>
  {if $iterator->nextValue > $step + 1}<em>&hellip;</em>{/if}
 {/foreach}
 
-{if $paginator->isLast()}<em>&raquo;</em>{else}<a n:href="this, page => $paginator->page + 1" n:class="$ajax ? ajax">&raquo;</a>{/if}
+{if $paginator->isLast()}<em>&raquo;</em>{else}<a n:href="paginate!, page => $paginator->page + 1" n:class="$ajax ? ajax">&raquo;</a>{/if}
