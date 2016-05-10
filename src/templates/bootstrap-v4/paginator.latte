@@ -1,10 +1,10 @@
 <ul class="pagination">
- {if $paginator->isFirst()}<li class="page-item disabled"><span class="page-link">&laquo;</span></li>{else}<li class="page-item"><a n:href="this, page => $paginator->page - 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&laquo;</a></li>{/if}
+ {if $paginator->isFirst()}<li class="page-item disabled"><span class="page-link">&laquo;</span></li>{else}<li class="page-item"><a n:href="paginate!, page => $paginator->page - 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&laquo;</a></li>{/if}
 
  {foreach $steps as $step}
-  <li n:class="$step == $paginator->page ? 'page-item active' : 'page-item'"><a n:href="this, page => $step" n:class="$ajax ? 'page-link ajax' : 'page-link'">{$step}</a></li>
+  <li n:class="$step == $paginator->page ? 'page-item active' : 'page-item'"><a n:href="paginate!, page => $step" n:class="$ajax ? 'page-link ajax' : 'page-link'">{$step}</a></li>
   {if $iterator->nextValue > $step + 1}<li class="page-item disabled"><span class="page-link">&hellip;</span></li>{/if}
  {/foreach}
 
-  {if $paginator->isLast()}<li class="page-item disabled"><span class="page-link">&raquo;</span></li>{else}<li class="page-item"><a n:href="this, page => $paginator->page + 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&raquo;</a></li>{/if}
+  {if $paginator->isLast()}<li class="page-item disabled"><span class="page-link">&raquo;</span></li>{else}<li class="page-item"><a n:href="paginate!, page => $paginator->page + 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&raquo;</a></li>{/if}
 </ul>
