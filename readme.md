@@ -109,8 +109,8 @@ visualpaginator:
 	translator: @Nette\Localization\ITranslator
 	template: @AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4
 	texts: [
-		["send", "system.paginator.send"],
-		["itemsPerPage", "system.paginator.itemsPerPage"]
+		["send", "Send"],
+		["itemsPerPage", "Items per page"]
 	]
 ```
 ..and usage in presenter:
