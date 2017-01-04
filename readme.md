@@ -113,7 +113,7 @@ visualpaginator:
 		["itemsPerPage", "Items per page"]
 	]
 ```
-..and usage in presenter:
+And usage in presenter:
 ```php
 use AlesWita\Components\VisualPaginator;
 
