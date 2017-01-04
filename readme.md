@@ -97,3 +97,45 @@ For changing the pre-defined texts:
 $vp->setText("send", "paginator.send")
 	->setText("itemsPerPage", "paginator.itemsPerPage");
 ```
+
+#### Configuration by DI
+Configuration in config.neon:
+```neon
+extensions:
+	visualpaginator: AlesWita\Components\VisualPaginatorExtension
+	
+visualpaginator:
+	session: @Nette\Http\Session
+	translator: @Nette\Localization\ITranslator
+	template: @AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4
+	texts: [
+		["send", "system.paginator.send"],
+		["itemsPerPage", "system.paginator.itemsPerPage"]
+	]
+```
+..and usage in presenter:
+```php
+use AlesWita\Components\VisualPaginator;
+
+
+final class HomePresenter extends BasePresenter
+{
+	/** @var AlesWita\Components\VisualPaginator @inject */
+	public $visualPaginator;
+
+	...
+	...
+
+	/**
+	 * @return AlesWita\Components\VisualPaginator
+	 */
+	protected function createComponentPaginator(): AlesWita\Components\VisualPaginato {
+		$vp = $this->visualPaginator;
+
+		$vp->setCanSetItemsPerPage(TRUE)
+			->setAjax(TRUE);
+
+		return $vp;
+	}
+}
+```
