@@ -345,7 +345,7 @@ class VisualPaginator extends Application\UI\Control
 
 		$form->addSubmit("send", $this->texts["send"]);
 
-		$form->onSuccess[] = function(Application\UI\Form $form, array $values){
+		$form->onSuccess[] = function(Application\UI\Form $form, array $values) {
 			$this->setItemsPerPage($values["itemsPerPage"]);
 			$this->handlePaginate();
 
