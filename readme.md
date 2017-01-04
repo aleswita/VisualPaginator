@@ -31,7 +31,7 @@ final class HomePresenter extends BasePresenter
 	/**
 	 * @return AlesWita\Components\VisualPaginator
 	 */
-	protected function createComponentPaginator(): AlesWita\Components\VisualPaginato {
+	protected function createComponentPaginator(): AlesWita\Components\VisualPaginator {
 		$vp = new VisualPaginator;
 		// paginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP_V3 and TEMPLATE_BOOTSTRAP_V4	
 		$vp->setPaginatorTemplate(VisualPaginator::TEMPLATE_BOOTSTRAP_V3);
@@ -98,8 +98,8 @@ $vp->setText("send", "paginator.send")
 	->setText("itemsPerPage", "paginator.itemsPerPage");
 ```
 
-#### Configuration by DI
-Configuration in config.neon:
+### Configuration by DI
+Setup in config.neon:
 ```neon
 extensions:
 	visualpaginator: AlesWita\Components\VisualPaginatorExtension
@@ -129,7 +129,7 @@ final class HomePresenter extends BasePresenter
 	/**
 	 * @return AlesWita\Components\VisualPaginator
 	 */
-	protected function createComponentPaginator(): AlesWita\Components\VisualPaginato {
+	protected function createComponentPaginator(): AlesWita\Components\VisualPaginator {
 		$vp = $this->visualPaginator;
 
 		$vp->setCanSetItemsPerPage(TRUE)
