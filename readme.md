@@ -98,8 +98,8 @@ $vp->setText("send", "paginator.send")
 	->setText("itemsPerPage", "paginator.itemsPerPage");
 ```
 
-### Configuration by DI
-Setup in config.neon:
+## Configuration by DI
+Setup in **config.neon**:
 ```neon
 extensions:
 	visualpaginator: AlesWita\Components\VisualPaginatorExtension
