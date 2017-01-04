@@ -6,5 +6,5 @@
   {if $iterator->nextValue > $step + 1}<li class="page-item disabled"><span class="page-link">&hellip;</span></li>{/if}
  {/foreach}
 
-  {if $paginator->isLast()}<li class="page-item disabled"><span class="page-link">&raquo;</span></li>{else}<li class="page-item"><a n:href="paginate!, page => $paginator->page + 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&raquo;</a></li>{/if}
+ {if $paginator->isLast()}<li class="page-item disabled"><span class="page-link">&raquo;</span></li>{else}<li class="page-item"><a n:href="paginate!, page => $paginator->page + 1" n:class="$ajax ? 'page-link ajax' : 'page-link'">&raquo;</a></li>{/if}
 </ul>
