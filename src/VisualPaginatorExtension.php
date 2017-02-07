@@ -5,6 +5,8 @@
  * Copyright (c) 2015 Ales Wita (aleswita@gmail.com)
  */
 
+declare(strict_types=1);
+
 namespace AlesWita\Components;
 
 use Nette;
@@ -13,7 +15,7 @@ use Nette;
 /**
  * @author Aleš Wita
  */
-class VisualPaginatorExtension extends Nette\DI\CompilerExtension
+final class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 {
 	/** @var array */
 	public $defaults = [
@@ -23,8 +25,10 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		"texts" => NULL,
 	];
 
-	public function loadConfiguration()
-	{
+	/**
+	 * @return void
+	 */
+	public function loadConfiguration(): void {
 		$config = $this->getConfig($this->defaults);
 		$container = $this->getContainerBuilder();
 
