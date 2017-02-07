@@ -10,11 +10,11 @@
                 }
         ],
         "require": {
-                "php": "~7.0.0 || ~7.1.0",
-                "nette/utils": "~2.3.0 || ~2.4.0",
-                "nette/application": "~2.3.0 || ~2.4.0",
-                "nette/http": "~2.3.0 || ~2.4.0",
-                "latte/latte": "~2.3.0 || ~2.4.0"
+                "php": "~7.1.0",
+                "nette/utils": "~2.4.0 || ~3.0.0",
+                "nette/application": "~2.4.0 || ~3.0.0",
+                "nette/http": "~2.4.0 || ~3.0.0",
+                "latte/latte": "~2.4.0 || ~3.0.0"
         },
         "autoload": {
                 "classmap": ["/"]
