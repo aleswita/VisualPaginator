@@ -19,8 +19,7 @@ final class HomePresenter extends BasePresenter
 	...
 	...
 
-	public function renderDefault()
-	{
+	public function renderDefault(): void {
 		$dataSource = $this->model->dataSource();
 		$this["paginator"]->setItemCount($dataSource->count());
 		$dataSource->applyLimit($this["paginator"]->getItemsPerPage(), $this["paginator"]->getOffset());
