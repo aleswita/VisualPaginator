@@ -15,14 +15,16 @@ use Nette;
 /**
  * @author Aleš Wita
  */
-final class VisualPaginatorExtension extends Nette\DI\CompilerExtension
+class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 {
 	/** @var array */
 	public $defaults = [
 		"session" => NULL,
 		"translator" => NULL,
-		"template" => VisualPaginator::TEMPLATE_NORMAL,
-		"texts" => NULL,
+		"itemsPerPageList" => NULL,
+		"template" => NULL,
+		"texts" => NULL,/** @deprecated */
+		"messages" => [],
 	];
 
 	/**
@@ -41,12 +43,60 @@ final class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		if ($config["translator"] !== NULL) {
 			$vp->addSetup('$service->setTranslator(?)', [$config["translator"]]);
 		}
-		if ($config["template"] !== VisualPaginator::TEMPLATE_NORMAL) {
-			$vp->addSetup('$service->setPaginatorTemplate(?)', [$config["template"]]);
+	}
+
+	/**
+	 * @param Nette\PhpGenerator\ClassType
+	 * @return void
+	 */
+	public function afterCompile(Nette\PhpGenerator\ClassType $class): void {
+		$initialize = $class->getMethod("initialize");
+		$config = $this->validateConfig($this->defaults);
+
+		// items per page list
+		if ($config["itemsPerPageList"] !== NULL) {
+			if (is_array($config["itemsPerPageList"])) {
+                if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($s): bool {return is_numeric($s);})) {
+					$initialize->addBody("AlesWita\Components\VisualPaginator::\$itemsPerPageList = ?;", [$config["itemsPerPageList"]]);
+				} else {
+					throw new Nette\InvalidArgumentException("Keys in \$defaults[\"itemsPerPageList\"] array must be numeric.");
+				}
+			} else {
+				throw new Nette\InvalidArgumentException("\$defaults[\"itemsPerPageList\"] must be array.");
+			}
 		}
-		if ($config["texts"] !== NULL) {
-			foreach ($config["texts"] as $arr) {
-				$vp->addSetup('$service->setText(?,?)', [$arr[0], $arr[1]]);
+
+		// template
+		if ($config["template"] !== NULL) {
+			if (is_string($config["template"])) {
+				$config["template"] = constant($config["template"]);
+			}
+
+        	if (array_keys($config["template"]) === array_keys(VisualPaginator::TEMPLATE_NORMAL)) {
+				if (is_file($config["template"]["main"]) && is_file($config["template"]["paginator"]) && is_file($config["template"]["itemsPerPage"])) {
+					$initialize->addBody("AlesWita\Components\VisualPaginator::\$paginatorTemplate = ?;", [$config["template"]]);
+				} else {
+					throw new Nette\InvalidArgumentException("One or more files in \$defaults[\"template\"] does not exist.");
+				}
+			} else {
+				throw new Nette\InvalidArgumentException("Array \$defaults[\"template\"] must have these keys: main, paginator and itemsPerPage.");
+			}
+		}
+
+		// work around for deprecated texts
+		if (isset($config["texts"]) && $config["messages"] === []) {
+			trigger_error("\$defaults[\"texts\"] is deprecated.", E_USER_DEPRECATED);
+			foreach ($config["texts"] as $val) {
+				$config["messages"][$val[0]] = $val[1];
+			}
+		}
+
+		// messages
+		foreach ((array) $config["messages"] as $name => $value) {
+			if (isset(VisualPaginator::$messages[$name])) {
+				$initialize->addBody("AlesWita\Components\VisualPaginator::\$messages[?] = ?;", [$name, $value]);
+			} else {
+				throw new Nette\InvalidArgumentException("'AlesWita\Components\VisualPaginator::\$messages[{$name}]' does not exist.");
 			}
 		}
 	}
