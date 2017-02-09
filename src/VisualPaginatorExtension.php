@@ -38,10 +38,10 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 			->setClass("AlesWita\\Components\\VisualPaginator");
 
 		if ($config["session"] !== NULL) {
-			$vp->addSetup('$service->setSession(?)', [$config["session"]]);
+			$vp->addSetup("\$service->setSession(?)", [$config["session"]]);
 		}
 		if ($config["translator"] !== NULL) {
-			$vp->addSetup('$service->setTranslator(?)', [$config["translator"]]);
+			$vp->addSetup("\$service->setTranslator(?)", [$config["translator"]]);
 		}
 	}
 
@@ -101,7 +101,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 			if (isset(VisualPaginator::$messages[$name])) {
 				$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$messages[?] = ?;", [$name, $value]);
 			} else {
-				throw new Nette\InvalidArgumentException("'AlesWita\\Components\\VisualPaginator::\$messages[{$name}]' does not exist.");
+				throw new Nette\InvalidArgumentException("AlesWita\\Components\\VisualPaginator::\$messages[{$name}] does not exist.");
 			}
 		}
 	}
