@@ -93,8 +93,8 @@ $vp->setTranslator($this->translator);
 ```
 For changing the pre-defined texts:
 ```php
-$vp->setText("send", "paginator.send")
-	->setText("itemsPerPage", "paginator.itemsPerPage");
+$vp::$messages["send"] = "paginator.send";
+$vp::$messages["itemsPerPage"] = "paginator.itemsPerPage";
 ```
 
 ## Configuration by DI
