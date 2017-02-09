@@ -28,17 +28,17 @@ class VisualPaginator extends Application\UI\Control
 	const TEMPLATE_NORMAL = [
 		"main" => __DIR__ . "/templates/normal/main.latte",
 		"paginator" => __DIR__ . "/templates/normal/paginator.latte",
-		"itemsPerPage" => __DIR__ . "/templates/normal/items-per-page.latte"
+		"itemsPerPage" => __DIR__ . "/templates/normal/items-per-page.latte",
 	];
 	const TEMPLATE_BOOTSTRAP_V3 = [
 		"main" => __DIR__ . "/templates/bootstrap-v3/main.latte",
 		"paginator" => __DIR__ . "/templates/bootstrap-v3/paginator.latte",
-		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v3/items-per-page.latte"
+		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v3/items-per-page.latte",
 	];
 	const TEMPLATE_BOOTSTRAP_V4 = [
 		"main" => __DIR__ . "/templates/bootstrap-v4/main.latte",
 		"paginator" => __DIR__ . "/templates/bootstrap-v4/paginator.latte",
-		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v4/items-per-page.latte"
+		"itemsPerPage" => __DIR__ . "/templates/bootstrap-v4/items-per-page.latte",
 	];
 
 	/** ******************** */
@@ -73,7 +73,14 @@ class VisualPaginator extends Application\UI\Control
 	private $canSetItemsPerPage = FALSE;
 
 	/** @var array */
-	public static $itemsPerPageList = [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
+	public static $itemsPerPageList = [
+		10 => "10",
+		20 => "20",
+		30 => "30",
+		40 => "40",
+		50 => "50",
+		100 => "100",
+	];
 
 	/** @var array */
 	public static $paginatorTemplate = self::TEMPLATE_NORMAL;
