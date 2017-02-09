@@ -58,7 +58,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		if ($config["itemsPerPageList"] !== NULL) {
 			if (is_array($config["itemsPerPageList"])) {
                 if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($s): bool {return is_numeric($s);})) {
-					$initialize->addBody("AlesWita\Components\VisualPaginator::\$itemsPerPageList = ?;", [$config["itemsPerPageList"]]);
+					$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$itemsPerPageList = ?;", [$config["itemsPerPageList"]]);
 				} else {
 					throw new Nette\InvalidArgumentException("Keys in \$defaults[\"itemsPerPageList\"] array must be numeric.");
 				}
@@ -76,7 +76,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 			if (is_array($config["template"])) {
 	        	if (array_keys($config["template"]) === array_keys(VisualPaginator::TEMPLATE_NORMAL)) {
 					if (is_file($config["template"]["main"]) && is_file($config["template"]["paginator"]) && is_file($config["template"]["itemsPerPage"])) {
-						$initialize->addBody("AlesWita\Components\VisualPaginator::\$paginatorTemplate = ?;", [$config["template"]]);
+						$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$paginatorTemplate = ?;", [$config["template"]]);
 					} else {
 						throw new Nette\InvalidArgumentException("One or more files in \$defaults[\"template\"] does not exist.");
 					}
@@ -99,9 +99,9 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		// messages
 		foreach ((array) $config["messages"] as $name => $value) {
 			if (isset(VisualPaginator::$messages[$name])) {
-				$initialize->addBody("AlesWita\Components\VisualPaginator::\$messages[?] = ?;", [$name, $value]);
+				$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$messages[?] = ?;", [$name, $value]);
 			} else {
-				throw new Nette\InvalidArgumentException("'AlesWita\Components\VisualPaginator::\$messages[{$name}]' does not exist.");
+				throw new Nette\InvalidArgumentException("'AlesWita\\Components\\VisualPaginator::\$messages[{$name}]' does not exist.");
 			}
 		}
 	}
