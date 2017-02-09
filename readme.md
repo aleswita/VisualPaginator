@@ -109,8 +109,8 @@ visualpaginator:
 	template: AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4 # without '@' !!!
 	itemsPerPageList: [1: 1, 2: 2, 3: 3]
 	messages:
-		"send": "system.paginator.send"
-		"itemsPerPage": "system.paginator.itemsPerPage"
+		"send": "paginator.send"
+		"itemsPerPage": "paginator.itemsPerPage"
 ```
 And usage in presenter:
 ```php
