@@ -89,7 +89,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		}
 
 		// work around for deprecated texts
-		if (isset($config["texts"]) && $config["messages"] === []) {
+		if (isset($config["texts"]) && $config["messages"] === []) {/** @deprecated */
 			trigger_error("\$defaults[\"texts\"] is deprecated.", E_USER_DEPRECATED);
 			foreach ($config["texts"] as $val) {
 				$config["messages"][$val[0]] = $val[1];
