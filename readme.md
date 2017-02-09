@@ -55,7 +55,7 @@ $vp->setCanSetItemsPerPage(TRUE);
 ```
 You can set your choices (remember, keys in array must be numeric):
 ```php
-$vp->setItemsPerPageList([10 => "10", 15 => "15"]);
+$vp:$itemsPerPageList = [10 => "10", 15 => "15"];
 ```
 
 #### Session
@@ -106,11 +106,11 @@ extensions:
 visualpaginator:
 	session: @Nette\Http\Session
 	translator: @Nette\Localization\ITranslator
-	template: @AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4
-	texts: [
-		["send", "Send"],
-		["itemsPerPage", "Items per page"]
-	]
+	template: AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4 # without '@' !!!
+	itemsPerPageList: [1: 1, 2: 2, 3: 3]
+	messages:
+		"send": "system.paginator.send"
+		"itemsPerPage": "system.paginator.itemsPerPage"
 ```
 And usage in presenter:
 ```php
