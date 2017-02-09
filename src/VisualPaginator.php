@@ -73,15 +73,15 @@ class VisualPaginator extends Application\UI\Control
 	private $canSetItemsPerPage = FALSE;
 
 	/** @var array */
-	private $itemsPerPageList = [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
+	public static $itemsPerPageList = [10 => "10", 20 => "20", 30 => "30", 40 => "40", 50 => "50", 100 => "100"];
 
 	/** @var array */
-	private $paginatorTemplate = self::TEMPLATE_NORMAL;
+	public static $paginatorTemplate = self::TEMPLATE_NORMAL;
 
 	/** @var array */
-	private $texts = [
+	public static $messages = [
 		"send" => "Send",
-		"itemsPerPage" => "Items per page"
+		"itemsPerPage" => "Items per page",
 	];
 
 	/** @var bool */
@@ -97,7 +97,7 @@ class VisualPaginator extends Application\UI\Control
 			$this->paginator = new Utils\Paginator;
 		}
 		$this->paginator->page = ($this->page === NULL ? 1 : $this->page);
-		$this->paginator->itemsPerPage = ($this->itemsPerPage === NULL ? array_values($this->itemsPerPageList)[0] : $this->itemsPerPage);
+		$this->paginator->itemsPerPage = ($this->itemsPerPage === NULL ? array_values(self::$itemsPerPageList)[0] : $this->itemsPerPage);
 		return $this->paginator;
 	}
 
@@ -143,11 +143,11 @@ class VisualPaginator extends Application\UI\Control
 	/**
 	 * @param int
 	 * @return self
-	 * @throw Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setItemsPerPage(int $num): self {
-		if ($this->canSetItemsPerPage && !in_array($num, array_keys($this->itemsPerPageList), TRUE)) {
-			throw new Nette\InvalidArgumentException("\$itemsPerPageList array haven't value '{$num}'.");
+		if ($this->canSetItemsPerPage && !in_array($num, array_keys(self::$itemsPerPageList), TRUE)) {
+			throw new Nette\InvalidArgumentException("AlesWita\Components\VisualPaginator::\$itemsPerPageList[{$num}] does not exist.");
 		}
 		if ($this->session !== NULL) {
 			$this->sessionSection->{$this->getSessionReposity()} = $num;
@@ -190,37 +190,43 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
+	 * @deprecated
 	 * @param array
 	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setItemsPerPageList(array $arr): self {
+		trigger_error(__METHOD__ . ' is deprecated.', E_USER_DEPRECATED);
 		if ($arr !== array_filter($arr, function ($s): bool {return is_numeric($s);})) {
 			throw new Nette\InvalidArgumentException("Keys in \$itemsPerPageList array must be numeric.");
 		}
-		$this->itemsPerPageList = $arr;
+		self::$itemsPerPageList = $arr;
 		return $this;
 	}
 
 	/**
+	 * @deprecated
 	 * @param array
 	 * @return self
 	 * @throws Nette\InvalidArgumentException
 	 */
 	public function setPaginatorTemplate(array $template): self {
+		trigger_error(__METHOD__ . ' is deprecated.', E_USER_DEPRECATED);
 		if (array_keys($template) !== array_keys(self::TEMPLATE_NORMAL)) {
 			throw new Nette\InvalidArgumentException("Template array must have these keys: main, paginator and itemsPerPage.");
 		}
-		$this->paginatorTemplate = $template;
+		self::$paginatorTemplate = $template;
 		return $this;
 	}
 
 	/**
+	 * @deprecated
 	 * @param string
 	 * @return self
 	 */
 	public function setText(string ... $s): self {
-		$this->texts[$s[0]] = $s[1];
+		trigger_error(__METHOD__ . ' is deprecated.', E_USER_DEPRECATED);
+		self::$messages[$s[0]] = $s[1];
 		return $this;
 	}
 
@@ -253,19 +259,17 @@ class VisualPaginator extends Application\UI\Control
 
 		// get items per page from session
 		if ($this->session !== NULL && $this->canSetItemsPerPage) {
-			if (isset($this->sessionSection->{$this->getSessionReposity()}) && in_array($this->sessionSection->{$this->getSessionReposity()}, array_keys($this->itemsPerPageList), TRUE)) {
+			if (isset($this->sessionSection->{$this->getSessionReposity()}) && in_array($this->sessionSection->{$this->getSessionReposity()}, array_keys(self::$itemsPerPageList), TRUE)) {
 				$this->setItemsPerPage($this->sessionSection->{$this->getSessionReposity()});
 			} else {
 				unset($this->sessionSection->{$this->getSessionReposity()});
 			}
 		}
 
-
 		$this->getPaginator()->page = $this->page;
 		$this->getPaginator()->itemsPerPage = $this->itemsPerPage;
 		$this->page = $this->getPaginator()->page;
 		$this->itemsPerPage = $this->getPaginator()->itemsPerPage;
-
 
 		$this["itemsPerPage"]->setDefaults([
 			"itemsPerPage" => $this->itemsPerPage
@@ -296,7 +300,7 @@ class VisualPaginator extends Application\UI\Control
 		$this->template->paginator = $paginator;
 		$this->template->ajax = $this->ajax;
 
-		$this->template->setFile($this->paginatorTemplate["main"]);
+		$this->template->setFile(self::$paginatorTemplate["main"]);
 		$this->template->render();
 	}
 
@@ -323,7 +327,7 @@ class VisualPaginator extends Application\UI\Control
 		$this->template->paginator = $paginator;
 		$this->template->ajax = $this->ajax;
 
-		$this->template->setFile($this->paginatorTemplate["paginator"]);
+		$this->template->setFile(self::$paginatorTemplate["paginator"]);
 		$this->template->render();
 	}
 
@@ -334,7 +338,7 @@ class VisualPaginator extends Application\UI\Control
 		$this->template->itemsPerPage = $this->canSetItemsPerPage;
 		$this->template->ajax = $this->ajax;
 
-		$this->template->setFile($this->paginatorTemplate["itemsPerPage"]);
+		$this->template->setFile(self::$paginatorTemplate["itemsPerPage"]);
 		$this->template->render();
 	}
 
@@ -347,11 +351,11 @@ class VisualPaginator extends Application\UI\Control
 		$form = new Application\UI\Form;
 		$form->setTranslator($this->translator);
 
-		$form->addSelect("itemsPerPage", $this->texts["itemsPerPage"], $this->itemsPerPageList)
+		$form->addSelect("itemsPerPage", self::$messages["itemsPerPage"], self::$itemsPerPageList)
 			//->setAttribute("onchange", "this.form.submit()")
 			->setRequired();
 
-		$form->addSubmit("send", $this->texts["send"]);
+		$form->addSubmit("send", self::$messages["send"]);
 
 		$form->onSuccess[] = function (Application\UI\Form $form, array $values): void {
 			$this->setItemsPerPage($values["itemsPerPage"]);
