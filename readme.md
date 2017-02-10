@@ -4,8 +4,16 @@ Visual Paginator for Nette Framework.
 ##Installation
 The best way to install AlesWita/VisualPaginator is using [Composer](http://getcomposer.org/):
 ```sh
+# For PHP 7.1 and Nette Framework 2.4/3.0
 $ composer require aleswita/visualpaginator:dev-master
+
+#For PHP 7.0/7.1 and Nette Framework 2.3/2.4
+$ composer require aleswita/visualpaginator:2.0
+
+#For PHP 5.6 and Nette Framework 2.3
+$ composer require aleswita/visualpaginator:1.0
 ```
+
 
 ## Usage
 
@@ -79,7 +87,7 @@ $vp->setAjax(TRUE);
 ```
 And set **onPaginate[]** callback for redraw your snippets:
 ```php
-$vp->onPaginate[] = function(){
+$vp->onPaginate[] = function(): void {
 	if ($this->isAjax()) {
 		$this->redrawControl("snippet");
 	}
