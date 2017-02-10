@@ -7,10 +7,10 @@ The best way to install AlesWita/VisualPaginator is using [Composer](http://getc
 # For PHP 7.1 and Nette Framework 2.4/3.0
 $ composer require aleswita/visualpaginator:dev-master
 
-#For PHP 7.0/7.1 and Nette Framework 2.3/2.4
+# For PHP 7.0/7.1 and Nette Framework 2.3/2.4
 $ composer require aleswita/visualpaginator:2.0
 
-#For PHP 5.6 and Nette Framework 2.3
+# For PHP 5.6 and Nette Framework 2.3
 $ composer require aleswita/visualpaginator:1.0
 ```
 
