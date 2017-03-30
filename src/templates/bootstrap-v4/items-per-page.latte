@@ -1,9 +1,13 @@
 {if $itemsPerPage}
  {form itemsPerPage, class => ($ajax ? "form-inline ajax" : "form-inline")}
-  <div class="form-group">
-   {label itemsPerPage /}
+  <div class="input-group">
+   <span class="input-group-addon">
+    {label itemsPerPage /}
+   </span>
    {input itemsPerPage, class => "form-control"}
-   {input send, class => "btn btn-secondary"}
+   <span class="input-group-btn">
+    {input send, class => "btn btn-secondary"}
+   </span>
   </div>
  {/form}
 {/if}
