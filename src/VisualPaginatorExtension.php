@@ -57,7 +57,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		// items per page list
 		if ($config["itemsPerPageList"] !== NULL) {
 			if (is_array($config["itemsPerPageList"])) {
-                if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($s): bool {return is_numeric($s);})) {
+				if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($s): bool {return is_numeric($s);})) {
 					$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$itemsPerPageList = ?;", [$config["itemsPerPageList"]]);
 				} else {
 					throw new Nette\InvalidArgumentException("Keys in \$defaults[\"itemsPerPageList\"] array must be numeric.");
@@ -74,7 +74,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 			}
 
 			if (is_array($config["template"])) {
-	        	if (array_keys($config["template"]) === array_keys(VisualPaginator::TEMPLATE_NORMAL)) {
+				if (array_keys($config["template"]) === array_keys(VisualPaginator::TEMPLATE_NORMAL)) {
 					if (is_file($config["template"]["main"]) && is_file($config["template"]["paginator"]) && is_file($config["template"]["itemsPerPage"])) {
 						$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$paginatorTemplate = ?;", [$config["template"]]);
 					} else {
