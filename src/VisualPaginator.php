@@ -2,7 +2,7 @@
 
 /**
  * This file is part of the AlesWita\Components\VisualPaginator
- * Copyright (c) 2016 Ales Wita (aleswita+github@gmail.com)
+ * Copyright (c) 2015 Ales Wita (aleswita+github@gmail.com)
  */
 
 declare(strict_types=1);
@@ -131,7 +131,7 @@ class VisualPaginator extends Application\UI\Control
 		} else {
 			$name = $this->presenter->getRequest()->getPresenterName();
 			$params = $this->presenter->getRequest()->getParameters();
-			$match = Utils\Strings::match($name, "~^(([a-zA-Z0-9_]+):([a-zA-Z0-9_]+))|([a-zA-Z0-9_]+)$~");
+			$match = Utils\Strings::match($name, '~^((\w+):(\w+))|(\w+)$~');
 
 			if (isset($match[2]) && isset($match[3]) && $match[2] !== "" && $match[3] !== "") {// module:presenter
 				return Utils\Strings::lower("{$match[2]}-{$match[3]}-{$params["action"]}");
@@ -154,7 +154,7 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setItemsPerPage(int $num): self {
 		if ($this->canSetItemsPerPage && !in_array($num, array_keys(self::$itemsPerPageList), TRUE)) {
-			throw new Nette\InvalidArgumentException("AlesWita\Components\VisualPaginator::\$itemsPerPageList[{$num}] does not exist.");
+			throw new Nette\InvalidArgumentException('AlesWita\Components\VisualPaginator::$itemsPerPageList[{$num}] does not exist.');
 		}
 		if ($this->session !== NULL) {
 			$this->sessionSection->{$this->getSessionReposity()} = $num;
@@ -205,7 +205,7 @@ class VisualPaginator extends Application\UI\Control
 	public function setItemsPerPageList(array $arr): self {
 		trigger_error(__METHOD__ . " is deprecated.", E_USER_DEPRECATED);
 		if ($arr !== array_filter($arr, function ($s): bool {return is_numeric($s);})) {
-			throw new Nette\InvalidArgumentException("Keys in \$itemsPerPageList array must be numeric.");
+			throw new Nette\InvalidArgumentException('Keys in $itemsPerPageList array must be numeric.');
 		}
 		self::$itemsPerPageList = $arr;
 		return $this;
@@ -279,7 +279,7 @@ class VisualPaginator extends Application\UI\Control
 		$this->itemsPerPage = $this->getPaginator()->itemsPerPage;
 
 		$this["itemsPerPage"]->setDefaults([
-			"itemsPerPage" => $this->itemsPerPage
+			"itemsPerPage" => $this->itemsPerPage,
 		]);
 	}
 
@@ -382,8 +382,8 @@ class VisualPaginator extends Application\UI\Control
 	public function handlePaginate(): void {
 		if ($this->onPaginate !== NULL) {
 			if (is_array($this->onPaginate)) {
-				foreach ($this->onPaginate as $handle) {
-					Utils\Callback::invoke($handle);
+				foreach ($this->onPaginate as $event) {
+					Utils\Callback::invoke($event);
 				}
 			} else {
 				Utils\Callback::invoke($this->onPaginate);
