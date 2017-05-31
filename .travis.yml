@@ -1,24 +1,24 @@
 language: php
 
 php:
-  - 7.1
-  
+    - 7.1
+
 env:
 
 matrix:
     include:
         - php: 7.1
           env: dependencies="--prefer-lowest --prefer-stable"
-      
+
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer update --no-interaction --prefer-dist $dependencies
+    - travis_retry composer self-update
+    - travis_retry composer update --no-interaction --prefer-dist $dependencies
 
 script:
-  - ./vendor/bin/tester -p php -s ./tests
+    - ./vendor/bin/tester -p php -s ./tests
 
 after_failure:
-  - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
+    - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
 
 sudo: false
 
