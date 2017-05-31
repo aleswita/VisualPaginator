@@ -2,15 +2,9 @@ language: php
 
 php:
   - 7.1
-  - hhvm
   
 env:
-  - NETTE=default
   - NETTE=~2.4.0
-
-matrix:
-  allow_failures:
-    - php: hhvm
       
 before_script:
   - composer self-update
