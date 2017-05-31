@@ -2,10 +2,17 @@ language: php
 
 php:
   - 7.1
+  
+env:
+
+matrix:
+    include:
+        - php: 7.1
+          env: dependencies="--prefer-lowest --prefer-stable"
       
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer install --no-interaction --prefer-source $dependencies
 
 script:
   - ./vendor/bin/tester -p php -s ./tests
