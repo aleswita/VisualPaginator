@@ -12,7 +12,7 @@ matrix:
       
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source $dependencies
+  - travis_retry composer update --no-interaction --prefer-dist $dependencies
 
 script:
   - ./vendor/bin/tester -p php -s ./tests
