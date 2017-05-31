@@ -1,26 +1,23 @@
 language: php
 
-php:
-    - 7.1
-
 env:
+  - NETTE=default
+  - NETTE=~2.2.0
+
+php:
+  - 7.1
+  - hhvm
 
 matrix:
-    include:
-        - php: 7.1
-          env: dependencies="--prefer-lowest --prefer-stable"
+  allow_failures:
+    - php: hhvm
 
 before_script:
-    - travis_retry composer update --no-interaction --prefer-dist $dependencies
+  - composer self-update
+  - composer install --no-interaction --prefer-source
 
 script:
-    - ./vendor/bin/tester -p php -s ./tests
+  - vendor/bin/tester -s -p php tests
 
 after_failure:
-    - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
-
-sudo: false
-
-cache:
-    directories:
-        - $HOME/.composer/cache
+  - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
