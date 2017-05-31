@@ -2,9 +2,6 @@ language: php
 
 php:
   - 7.1
-  
-env:
-  - NETTE=~2.4.0
       
 before_install:
   - composer self-update
