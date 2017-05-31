@@ -6,8 +6,10 @@ php:
 script:
   - vendor/bin/tester tests -s -p 
   
-before_script:
+before_install:
   - travis_retry composer self-update --preview
+  
+install:
   - travis_retry composer update --no-interaction --prefer-dist
 
 after_failure:
