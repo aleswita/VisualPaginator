@@ -6,9 +6,11 @@ php:
 env:
   - NETTE=~2.4.0
       
-before_script:
+before_install:
   - composer self-update
-  - composer install --no-interaction --prefer-source --dev
+  
+install:
+  - composer install --no-interaction --prefer-source
 
 script:
   - vendor/bin/tester -s -p php tests
