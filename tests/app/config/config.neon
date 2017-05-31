@@ -1,0 +1,12 @@
+extensions:
+	visualpaginator: AlesWita\Components\VisualPaginatorExtension
+
+application:
+	mapping:
+		*: AlesWita\Components\VisualPaginator\Tests\App\*Presenter
+
+services:
+	test.presenter:
+		class: AlesWita\Components\VisualPaginator\Tests\App\TestPresenter
+
+	router: AlesWita\Components\VisualPaginator\Tests\App\Router::createRouter
