@@ -6,12 +6,9 @@ php:
 script:
   - vendor/bin/tester tests -s -p 
   
-before_install:
-  - travis_retry composer self-update 1.3.0
-  
-install:
-  - travis_retry composer update --no-interaction --prefer-dist
+before_script:
   - travis_retry composer create-project nette/code-checker temp/code-checker ~2.8 --no-interaction
+  - travis_retry composer update --no-interaction --prefer-dist
 
 after_failure:
   - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
