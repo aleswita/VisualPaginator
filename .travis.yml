@@ -1,8 +1,8 @@
 language: php
 
 env:
-  - NETTE=default
-  - NETTE=~2.2.0
+  global:
+    secure: <LONG_STRING_OF_ENCRYPTED_CHARACTERS>
 
 php:
   - 7.1
@@ -11,13 +11,10 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-
-before_install:
-  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
   
 before_script:
-  - composer self-update
-  - composer install --no-interaction --prefer-source
+  - travis_retry composer self-update
+  - travis_retry composer update --no-interaction --prefer-dist
 
 script:
   - vendor/bin/tester -s -p php tests
