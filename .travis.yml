@@ -2,12 +2,19 @@ language: php
 
 php:
   - 7.1
+  - hhvm
+  
+env:
+  - NETTE=default
+  - NETTE=~2.4.0
 
+matrix:
+  allow_failures:
+    - php: hhvm
+      
 before_script:
   - composer self-updateinstall:
-
-install:
-  - composer install --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-source --dev
 
 script:
   - vendor/bin/tester -s -p php tests
