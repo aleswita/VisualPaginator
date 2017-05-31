@@ -1,18 +1,10 @@
 language: php
 
-env:
-  global:
-    secure: <LONG_STRING_OF_ENCRYPTED_CHARACTERS>
-
 php:
   - 7.1
-  - hhvm
-
-matrix:
-  allow_failures:
-    - php: hhvm
   
 before_script:
+  - travis encrypt 'GITHUB_TOKEN=<dfcfc94a48063fd877316636903f31bed301236f>'
   - travis_retry composer self-update
   - travis_retry composer update --no-interaction --prefer-dist
 
