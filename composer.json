@@ -17,6 +17,14 @@
                 "nette/http": "~2.4.0 || ~3.0.0",
                 "latte/latte": "~2.4.0 || ~3.0.0"
         },
+        "require-dev": {
+                "nette/di": "~2.4.0 || ~3.0.0",
+                "nette/utils": "~2.4.0 || ~3.0.0",
+                "nette/application": "~2.4.0 || ~3.0.0",
+                "nette/http": "~2.4.0 || ~3.0.0",
+                "latte/latte": "~2.4.0 || ~3.0.0",
+                "nette/tester": "~1.7"
+        },
         "autoload": {
                 "classmap": ["/"]
 	}
