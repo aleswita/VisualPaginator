@@ -13,7 +13,7 @@ matrix:
     - php: hhvm
       
 before_script:
-  - composer self-updateinstall:
+  - composer self-update
   - composer install --no-interaction --prefer-source --dev
 
 script:
