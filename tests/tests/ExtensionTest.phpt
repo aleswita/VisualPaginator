@@ -45,7 +45,7 @@ final class ExtensionTest extends Tester\TestCase
 		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest1.neon");
 
 		$container = $configurator->createContainer();
-        $container->createService("visualpaginator.visualpaginator");
+        var_dump($container->getService("visualpaginator.visualpaginator"));
 	}
 
 	/**
