@@ -18,6 +18,17 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/** @var AlesWita\Components\VisualPaginator @inject */
 	public $visualPaginator;
 
+	/** @var Nette\Http\Session @inject */
+	public $session;
+
+	/**
+	 * @return void
+	 */
+	public function actionSessionOne(): void {
+		$this["paginator"]->setSession($this->session);
+		$this->setView("template");
+	}
+
 	/**
 	 * @return void
 	 */

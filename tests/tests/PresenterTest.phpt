@@ -69,6 +69,20 @@ final class PresenterTest extends Tester\TestCase
 	/**
 	 * @return void
 	 */
+	public function testSessionOne(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionOne"]);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
+
+		//Tester\Assert::true(false);
+
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testTemplateNormalOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateOne"]);
@@ -77,7 +91,7 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
 		$source = (string) $response->getSource();
-        $dom = Tester\DomQuery::fromHtml($source);
+		$dom = Tester\DomQuery::fromHtml($source);
 		$numbers = $dom->find("strong a");
 
 		Tester\Assert::count(5, $numbers);
@@ -99,7 +113,7 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
 		$source = (string) $response->getSource();
-        $dom = Tester\DomQuery::fromHtml($source);
+		$dom = Tester\DomQuery::fromHtml($source);
 		$numbers = $dom->find("strong a");
 
 		Tester\Assert::count(1, $numbers);
@@ -117,7 +131,7 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
 		$source = (string) $response->getSource();
-        $dom = Tester\DomQuery::fromHtml($source);
+		$dom = Tester\DomQuery::fromHtml($source);
 		$numbers = $dom->find("select option");
 
 		Tester\Assert::count(6, $numbers);
@@ -140,7 +154,7 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
 		$source = (string) $response->getSource();
-        $dom = Tester\DomQuery::fromHtml($source);
+		$dom = Tester\DomQuery::fromHtml($source);
 		$numbers = $dom->find("select option");
 
 		Tester\Assert::count(3, $numbers);
@@ -148,32 +162,6 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::same(4, (int) $numbers[1]);
 		Tester\Assert::same(6, (int) $numbers[2]);
 	}
-
-	/**
-	 * @return void
-	 */
-	/*public function testTemplateNormalFive(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFive"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-        $dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("select option");
-
-
-
-
-
-
-		//var_dump($dom);
-        //var_dump($dom->find("select option"));
-
-		Tester\Assert::true(false);
-
-	}*/
 
 	/**
 	 * @return void
