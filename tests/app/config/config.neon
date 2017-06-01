@@ -10,3 +10,6 @@ services:
 		class: AlesWita\Components\VisualPaginator\Tests\App\TestPresenter
 
 	router: AlesWita\Components\VisualPaginator\Tests\App\Router::createRouter
+
+visualpaginator:
+	session: @Nette\Http\Session

@@ -69,6 +69,34 @@ final class PresenterTest extends Tester\TestCase
 	/**
 	 * @return void
 	 */
+	public function testFormOne(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "POST", ["action" => "formOne"], ["itemsPerPage" => "20", "_do" => "paginator-itemsPerPage-submit", "send" => "Send"]);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
+		Tester\Assert::contains("form-one?paginator-page=1&paginator-itemsPerPage=20", $response->getUrl());
+			/*
+
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "formOne"]);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
+
+		$source = (string) $response->getSource();
+		$dom = Tester\DomQuery::fromHtml($source);
+
+
+		var_dump($dom);*/
+
+
+		//Tester\Assert::true("kokot");
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testSessionOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionOne"]);

@@ -24,8 +24,22 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return void
 	 */
+	public function actionFormOne(): void {
+		$this["paginator"]->setCanSetItemsPerPage(TRUE)
+			->setItemCount(50);
+
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
 	public function actionSessionOne(): void {
-		$this["paginator"]->setSession($this->session);
+		$this["paginator"]->setSession($this->session, "save-data-here")
+			->setCanSetItemsPerPage(TRUE)
+			->setItemCount(50)
+			->setItemsPerPage(20);
+
 		$this->setView("template");
 	}
 
@@ -77,29 +91,6 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 			->setCanSetItemsPerPage(TRUE);
 
 		$this->setView("template");
-	}
-
-	/**
-	 * @return void
-	 */
-	public function actionTemplateTwo(): void {
-		$this->setView("two");
-	}
-
-	/**
-	 * @return void
-	 */
-	public function actionTemplateThree(): void {
-		$this["paginatorOne"]::$paginatorTemplate = TEMPLATE_BOOTSTRAP_V4;
-		$this->setView("one");
-	}
-
-	/**
-	 * @return void
-	 */
-	public function actionTemplateFour(): void {
-		$this["paginatorTwo"]::$paginatorTemplate = TEMPLATE_BOOTSTRAP_V4;
-		$this->setView("two");
 	}
 
 	/**
