@@ -53,7 +53,8 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	 */
 	public function actionSessionTwo(): void {
 		$this["paginator"]->setSession($this->session, "my-reposity")
-			->setCanSetItemsPerPage(TRUE);
+			->setCanSetItemsPerPage(TRUE)
+			->setItemsPerPage(20);
 
 		$this->setView("template");
 	}
@@ -129,6 +130,16 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 			->setCanSetItemsPerPage(TRUE);
 
 		$this->setView("templateItemsPerPage");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateEight(): void {
+		$this["paginator"]->setItemCount(50)
+			->setAjax(TRUE);
+
+		$this->setView("template");
 	}
 
 	/**

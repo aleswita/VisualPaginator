@@ -288,6 +288,28 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::same(50, (int) $options[4]);
 		Tester\Assert::same(100, (int) $options[5]);
 	}
+
+	/**
+	 * @return void
+	 */
+	public function testTemplateNormalEight(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateEight"]);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
+
+		$source = (string) $response->getSource();
+		$dom = Tester\DomQuery::fromHtml($source);
+		$numbers = $dom->find('strong a[class="ajax"]');
+
+		Tester\Assert::count(5, $numbers);
+		Tester\Assert::same(1, (int) $numbers[0]);
+		Tester\Assert::same(2, (int) $numbers[1]);
+		Tester\Assert::same(3, (int) $numbers[2]);
+		Tester\Assert::same(4, (int) $numbers[3]);
+		Tester\Assert::same(5, (int) $numbers[4]);
+	}
 }
 
 
