@@ -30,14 +30,14 @@ final class PresenterTest extends Tester\TestCase
 
 	public function __construct()
 	{
-		$this->container = $this->createContainer();
-		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
 	}
 
 	/**
 	 * @return void
 	 */
 	public function setUp(): void {
+		$this->container = $this->createContainer();
+		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
 		parent::setUp();
 	}
 

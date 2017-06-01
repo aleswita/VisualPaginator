@@ -45,7 +45,7 @@ final class ExtensionTest extends Tester\TestCase
 		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest1.neon");
 
 		$container = $configurator->createContainer();
-        $container->getService("visualpaginator.visualpaginator");
+        $container->createService("visualpaginator.visualpaginator");
 	}
 
 	/**
@@ -59,7 +59,7 @@ final class ExtensionTest extends Tester\TestCase
 		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest2.neon");
 
 		$container = $configurator->createContainer();
-        $container->getService("visualpaginator.visualpaginator");
+        $container->createService("visualpaginator.visualpaginator");
 	}
 
 	/**
@@ -73,7 +73,7 @@ final class ExtensionTest extends Tester\TestCase
 		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest3.neon");
 
 		$container = $configurator->createContainer();
-        $container->getService("visualpaginator.visualpaginator");
+        $container->createService("visualpaginator.visualpaginator");
 	}
 }
 
