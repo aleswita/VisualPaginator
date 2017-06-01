@@ -45,11 +45,11 @@ final class ExtensionTest extends Tester\TestCase
 	public function testOne(): void {
 		$configurator = new Nette\Configurator();
 
-		$configurator->setDebugMode(TRUE);
 		$configurator->setTempDirectory(TEMP_DIR);
 		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest1.neon");
 
-		$
+		$configurator->createContainer();
+	}
 
 	/**
 	 * @throws Nette\InvalidArgumentException
@@ -58,12 +58,10 @@ final class ExtensionTest extends Tester\TestCase
 	public function testTwo(): void {
 		$configurator = new Nette\Configurator();
 
-		$configurator->setDebugMode(TRUE);
 		$configurator->setTempDirectory(TEMP_DIR);
-		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest1.neon");
+		$configurator->addConfig(__DIR__ . "/../app/config/extensionTest2.neon");
 
 		$configurator->createContainer();
-	}configurator->createContainer();
 	}
 }
 
