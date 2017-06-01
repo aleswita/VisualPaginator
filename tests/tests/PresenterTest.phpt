@@ -128,19 +128,6 @@ final class PresenterTest extends Tester\TestCase
 	/**
 	 * @return void
 	 */
-	public function testPaginateTwo(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "paginateOne", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 10]);
-		$session = $presenter->getSession();
-		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
-	}
-
-	/**
-	 * @return void
-	 */
 	public function testTemplateNormalOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateOne"]);
@@ -190,21 +177,24 @@ final class PresenterTest extends Tester\TestCase
 
 		$source = (string) $response->getSource();
 		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("select option");
+		$options = $dom->find("select option");
 
-		Tester\Assert::count(6, $numbers);
-		Tester\Assert::same(10, (int) $numbers[0]);
-		Tester\Assert::same(20, (int) $numbers[1]);
-		Tester\Assert::same(30, (int) $numbers[2]);
-		Tester\Assert::same(40, (int) $numbers[3]);
-		Tester\Assert::same(50, (int) $numbers[4]);
-		Tester\Assert::same(100, (int) $numbers[5]);
+		Tester\Assert::count(6, $options);
+		Tester\Assert::same(10, (int) $options[0]);
+		Tester\Assert::same(20, (int) $options[1]);
+		Tester\Assert::same(30, (int) $options[2]);
+		Tester\Assert::same(40, (int) $options[3]);
+		Tester\Assert::same(50, (int) $options[4]);
+		Tester\Assert::same(100, (int) $options[5]);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function testTemplateNormalFour(): void {
+		$temp = AlesWita\Components\VisualPaginator::$itemsPerPageList;
+        AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
+
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFour"]);
 		$response = $presenter->run($request);
@@ -219,162 +209,53 @@ final class PresenterTest extends Tester\TestCase
 		Tester\Assert::same(2, (int) $numbers[0]);
 		Tester\Assert::same(4, (int) $numbers[1]);
 		Tester\Assert::same(6, (int) $numbers[2]);
+
+		AlesWita\Components\VisualPaginator::$itemsPerPageList = $temp;
 	}
 
 	/**
 	 * @return void
 	 */
-	public function atestOne(): void {
+	public function testTemplateNormalFive(): void {
 		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "templateOne"]);
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFive"]);
 		$response = $presenter->run($request);
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
-		$source = Nette\Utils\Strings::normalize((string) $response->getSource());
-		$template = Nette\Utils\Strings::normalize('<em>&laquo;</em>
+		$source = (string) $response->getSource();
+		$dom = Tester\DomQuery::fromHtml($source);
+		$numbers = $dom->find("strong a");
 
- <strong><a href="/test/template-one?paginatorOne-page=1&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">1</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=2&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">2</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=3&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">3</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=4&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">4</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=251&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">251</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=501&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">501</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=750&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">750</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=1000&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">1000</a></strong>
-
-
-<a href="/test/template-one?paginatorOne-page=2&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">&raquo;</a>');
-
-		Tester\Assert::same($template, $source);
+		Tester\Assert::count(5, $numbers);
+		Tester\Assert::same(1, (int) $numbers[0]);
+		Tester\Assert::same(2, (int) $numbers[1]);
+		Tester\Assert::same(3, (int) $numbers[2]);
+		Tester\Assert::same(4, (int) $numbers[3]);
+		Tester\Assert::same(5, (int) $numbers[4]);
 	}
 
 	/**
 	 * @return void
 	 */
-	public function atestTwo(): void {
+	public function testTemplateNormalSix(): void {
 		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "templateTwo"]);
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateSix"]);
 		$response = $presenter->run($request);
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
-		$source = Nette\Utils\Strings::normalize((string) $response->getSource());
-		$template = Nette\Utils\Strings::normalize('<em>&laquo;</em>
+		$source = (string) $response->getSource();
+		$dom = Tester\DomQuery::fromHtml($source);
+		$options = $dom->find("select option");
 
- <strong><a href="/test/template-two?paginatorTwo-page=1&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">1</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=2&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">2</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=3&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">3</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=4&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">4</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=251&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">251</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=501&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">501</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=750&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">750</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=1000&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">1000</a></strong>
-
-
-<a href="/test/template-two?paginatorTwo-page=2&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">&raquo;</a>
- <form action="/test/template-two" method="post" id="frm-paginatorTwo-itemsPerPage">
-  <table>
-   <tr>
-    <td><label for="frm-paginatorTwo-itemsPerPage-itemsPerPage">Items per page</label></td><td><select name="itemsPerPage" id="frm-paginatorTwo-itemsPerPage-itemsPerPage" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="10" selected>10</option><option value="20">20</option><option value="30">30</option><option value="40">40</option><option value="50">50</option><option value="100">100</option></select></td><td><input type="submit" name="send" value="Send"></td>
-   </tr>
-  </table>
- <input type="hidden" name="_do" value="paginatorTwo-itemsPerPage-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
-</form>');
-
-		Tester\Assert::same($template, $source);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function atestThree(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "templateOne"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = Nette\Utils\Strings::normalize((string) $response->getSource());
-		$template = Nette\Utils\Strings::normalize('<em>&laquo;</em>
-
- <strong><a href="/test/template-one?paginatorOne-page=1&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">1</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=2&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">2</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=3&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">3</a></strong>
-
- <strong><a href="/test/template-one?paginatorOne-page=4&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">4</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=251&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">251</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=501&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">501</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=750&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">750</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-one?paginatorOne-page=1000&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">1000</a></strong>
-
-
-<a href="/test/template-one?paginatorOne-page=2&amp;paginatorOne-itemsPerPage=10&amp;do=paginatorOne-paginate">&raquo;</a>');
-
-		Tester\Assert::same($template, $source);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function atestFour(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "templateTwo"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = Nette\Utils\Strings::normalize((string) $response->getSource());
-		$template = Nette\Utils\Strings::normalize('<em>&laquo;</em>
-
- <strong><a href="/test/template-two?paginatorTwo-page=1&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">1</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=2&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">2</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=3&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">3</a></strong>
-
- <strong><a href="/test/template-two?paginatorTwo-page=4&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">4</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=251&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">251</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=501&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">501</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=750&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">750</a></strong>
- <em>&hellip;</em>
- <strong><a href="/test/template-two?paginatorTwo-page=1000&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">1000</a></strong>
-
-
-<a href="/test/template-two?paginatorTwo-page=2&amp;paginatorTwo-itemsPerPage=10&amp;do=paginatorTwo-paginate">&raquo;</a>
- <form action="/test/template-two" method="post" id="frm-paginatorTwo-itemsPerPage">
-  <table>
-   <tr>
-    <td><label for="frm-paginatorTwo-itemsPerPage-itemsPerPage">Items per page</label></td><td><select name="itemsPerPage" id="frm-paginatorTwo-itemsPerPage-itemsPerPage" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="10" selected>10</option><option value="20">20</option><option value="30">30</option><option value="40">40</option><option value="50">50</option><option value="100">100</option></select></td><td><input type="submit" name="send" value="Send"></td>
-   </tr>
-  </table>
- <input type="hidden" name="_do" value="paginatorTwo-itemsPerPage-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
-</form>');
-
-		Tester\Assert::same($template, $source);
+		Tester\Assert::count(6, $options);
+		Tester\Assert::same(10, (int) $options[0]);
+		Tester\Assert::same(20, (int) $options[1]);
+		Tester\Assert::same(30, (int) $options[2]);
+		Tester\Assert::same(40, (int) $options[3]);
+		Tester\Assert::same(50, (int) $options[4]);
+		Tester\Assert::same(100, (int) $options[5]);
 	}
 }
 

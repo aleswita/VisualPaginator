@@ -62,17 +62,6 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return void
 	 */
-	public function actionPaginateTwo(): void {
-		$this["paginator"]->onPaginate = function() {
-			$this->redirect("this");
-		};
-
-		$this->setView("template");
-	}
-
-	/**
-	 * @return void
-	 */
 	public function actionNormalTemplateOne(): void {
 		$this["paginator"]->setItemCount(50);
 		$this->setView("template");
@@ -100,8 +89,6 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	 * @return void
 	 */
 	public function actionNormalTemplateFour(): void {
-		AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
-
 		$this["paginator"]->setItemCount(10)
 			->setCanSetItemsPerPage(TRUE);
 
@@ -112,12 +99,18 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	 * @return void
 	 */
 	public function actionNormalTemplateFive(): void {
-		$this["paginator"]->itemsPerPage = 5;
+		$this["paginator"]->setItemCount(50);
+		$this->setView("templatePaginator");
+	}
 
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateSix(): void {
 		$this["paginator"]->setItemCount(10)
 			->setCanSetItemsPerPage(TRUE);
 
-		$this->setView("template");
+		$this->setView("templateItemsPerPage");
 	}
 
 	/**
