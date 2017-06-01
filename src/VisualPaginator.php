@@ -154,7 +154,7 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function setItemsPerPage(int $num): self {
 		if ($this->canSetItemsPerPage && !in_array($num, array_keys(self::$itemsPerPageList), TRUE)) {
-			throw new Nette\InvalidArgumentException('AlesWita\Components\VisualPaginator::$itemsPerPageList[{$num}] does not exist.');
+			throw new Nette\InvalidArgumentException("AlesWita\\Components\\VisualPaginator::\$itemsPerPageList[{$num}] does not exist.");
 		}
 		if ($this->session !== NULL) {
 			$this->sessionSection->{$this->getSessionReposity()} = $num;
@@ -381,12 +381,8 @@ class VisualPaginator extends Application\UI\Control
 	 */
 	public function handlePaginate(): void {
 		if ($this->onPaginate !== NULL) {
-			if (is_array($this->onPaginate)) {
-				foreach ($this->onPaginate as $event) {
-					Utils\Callback::invoke($event);
-				}
-			} else {
-				Utils\Callback::invoke($this->onPaginate);
+			foreach ($this->onPaginate as $event) {
+				Utils\Callback::invoke($event);
 			}
 		}
 	}
