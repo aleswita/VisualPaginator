@@ -2,7 +2,7 @@
 Visual Paginator for Nette Framework.
 
 [![Build Status](https://travis-ci.org/aleswita/VisualPaginator.svg?branch=master)](https://travis-ci.org/aleswita/VisualPaginator)
-
+[![Coverage Status](https://coveralls.io/repos/github/aleswita/VisualPaginator/badge.svg?branch=master)](https://coveralls.io/github/aleswita/VisualPaginator?branch=master)
 
 ## Installation
 The best way to install AlesWita/VisualPaginator is using [Composer](http://getcomposer.org/):
