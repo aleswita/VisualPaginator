@@ -115,6 +115,32 @@ final class PresenterTest extends Tester\TestCase
 	/**
 	 * @return void
 	 */
+	public function testPaginateOne(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "paginateOne", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 10]);
+		$session = $presenter->getSession();
+		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testPaginateTwo(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "paginateOne", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 10]);
+		$session = $presenter->getSession();
+		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
+	}
+
+	/**
+	 * @return void
+	 */
 	public function testTemplateNormalOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateOne"]);

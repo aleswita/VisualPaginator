@@ -51,6 +51,28 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return void
 	 */
+	public function actionPaginateOne(): void {
+		$this["paginator"]->onPaginate[] = function() {
+			$this->redirect("this");
+		};
+
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionPaginateTwo(): void {
+		$this["paginator"]->onPaginate = function() {
+			$this->redirect("this");
+		};
+
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
 	public function actionNormalTemplateOne(): void {
 		$this["paginator"]->setItemCount(50);
 		$this->setView("template");
