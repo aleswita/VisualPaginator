@@ -1,14 +1,15 @@
 language: php
 
 php:
-  - 7.1
-  
+    - 7.1
+
 script:
-  - vendor/bin/tester tests -s -p 
-  
+    - vendor/bin/tester tests -s
+    - php temp/code-checker/src/code-checker.php --short-arrays --strict-types -i tests/Utils/files
+    
 before_script:
-  - travis_retry composer create-project nette/code-checker temp/code-checker ~2.8 --no-interaction
-  - travis_retry composer update --no-interaction --prefer-dist
+    - travis_retry composer install --no-interaction --prefer-dist
+    - travis_retry composer create-project nette/code-checker temp/code-checker ~2.8 --no-interaction
 
 after_failure:
-  - 'for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done'
+    - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
