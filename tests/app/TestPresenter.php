@@ -52,7 +52,7 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	 * @return void
 	 */
 	public function actionSessionTwo(): void {
-		$this["paginator"]->setSession($this->session, "my-reposity")
+		$this["paginator"]->setSession($this->session, "my-reposity", "my-section")
 			->setCanSetItemsPerPage(TRUE)
 			->setItemsPerPage(20);
 

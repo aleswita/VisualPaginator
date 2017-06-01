@@ -117,12 +117,12 @@ final class PresenterTest extends Tester\TestCase
 	 */
 	public function testSessionTwo(): void {
 		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionTwo", "do" => "paginator-paginate", "paginator-page" => 1, "paginator-itemsPerPage" => 20]);
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionTwo"]);
 		$response = $presenter->run($request);
 		$session = $presenter->getSession();
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-		Tester\Assert::true($session->hasSection(AlesWita\Components\VisualPaginator::SESSION_SECTION));
+		Tester\Assert::true($session->hasSection("my-section"));
 	}
 
 	/**
