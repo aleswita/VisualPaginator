@@ -21,8 +21,51 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return void
 	 */
-	public function actionTemplateOne(): void {
-		$this->setView("one");
+	public function actionNormalTemplateOne(): void {
+		$this["paginator"]->setItemCount(50);
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateTwo(): void {
+		$this["paginator"]->setItemCount(10);
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateThree(): void {
+		$this["paginator"]->setItemCount(10)
+			->setCanSetItemsPerPage(TRUE);
+
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateFour(): void {
+		AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
+
+		$this["paginator"]->setItemCount(10)
+			->setCanSetItemsPerPage(TRUE);
+
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionNormalTemplateFive(): void {
+		$this["paginator"]->itemsPerPage = 5;
+
+		$this["paginator"]->setItemCount(10)
+			->setCanSetItemsPerPage(TRUE);
+
+		$this->setView("template");
 	}
 
 	/**
@@ -51,25 +94,7 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return AlesWita\Components\VisualPaginator
 	 */
-	protected function createComponentPaginatorOne(): AlesWita\Components\VisualPaginator {
-		$vp = $this->visualPaginator;
-
-		$vp->setItemsPerPage(10)
-			->setItemCount(10000);
-
-		return $vp;
-	}
-
-	/**
-	 * @return AlesWita\Components\VisualPaginator
-	 */
-	protected function createComponentPaginatorTwo(): AlesWita\Components\VisualPaginator {
-		$vp = $this->visualPaginator;
-
-		$vp->setCanSetItemsPerPage(TRUE)
-			->setItemsPerPage(10)
-			->setItemCount(10000);
-
-		return $vp;
+	protected function createComponentPaginator(): AlesWita\Components\VisualPaginator {
+		return $this->visualPaginator;
 	}
 }

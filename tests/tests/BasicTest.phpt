@@ -5,7 +5,6 @@
  * Copyright (c) 2015 Ales Wita (aleswita+github@gmail.com)
  *
  * @phpVersion 7.1.0
- * @testCase
  */
 
 declare(strict_types=1);
