@@ -76,22 +76,27 @@ final class PresenterTest extends Tester\TestCase
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
 		Tester\Assert::contains("form-one?paginator-page=1&paginator-itemsPerPage=20", $response->getUrl());
-			/*
+		Tester\Assert::true($presenter["paginator"]["itemsPerPage"]->isSuccess());
+	}
 
+	/**
+	 * @return void
+	 */
+	public function testFormTwo(): void {
 		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "formOne"]);
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "formTwo", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 20]);
+		$session = $presenter->getSession();
+		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
 		$response = $presenter->run($request);
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 
 		$source = (string) $response->getSource();
 		$dom = Tester\DomQuery::fromHtml($source);
+		$option = $dom->find("select option[selected]");
 
-
-		var_dump($dom);*/
-
-
-		//Tester\Assert::true("kokot");
+		Tester\Assert::count(1, $option);
+		Tester\Assert::same(20, (int) $option[0]["value"]);
 	}
 
 	/**
@@ -100,12 +105,11 @@ final class PresenterTest extends Tester\TestCase
 	public function testSessionOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionOne"]);
+		$session = $presenter->getSession();
 		$response = $presenter->run($request);
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		//Tester\Assert::true(false);
-
+		Tester\Assert::true($session->hasSection(AlesWita\Components\VisualPaginator::SESSION_SECTION));
 	}
 
 	/**

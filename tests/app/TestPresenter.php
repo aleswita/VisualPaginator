@@ -34,12 +34,17 @@ final class TestPresenter extends Nette\Application\UI\Presenter
 	/**
 	 * @return void
 	 */
-	public function actionSessionOne(): void {
-		$this["paginator"]->setSession($this->session, "save-data-here")
-			->setCanSetItemsPerPage(TRUE)
-			->setItemCount(50)
-			->setItemsPerPage(20);
+	public function actionFormTwo(): void {
+		$this["paginator"]->setCanSetItemsPerPage(TRUE)
+			->setItemCount(50);
 
+		$this->setView("template");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function actionSessionOne(): void {
 		$this->setView("template");
 	}
 
