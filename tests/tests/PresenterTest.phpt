@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace AlesWita\Components\VisualPaginator\Tests;
+namespace AlesWita\Components\VisualPaginator\Tests\Tests;
 
 use AlesWita;
 use Nette;
