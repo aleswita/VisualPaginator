@@ -23,7 +23,6 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		"translator" => NULL,
 		"itemsPerPageList" => NULL,
 		"template" => NULL,
-		"texts" => NULL,/** @deprecated */
 		"messages" => [],
 	];
 
@@ -85,14 +84,6 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 				}
 			} else {
 				throw new Nette\InvalidArgumentException("\$defaults[\"template\"] must be array.");
-			}
-		}
-
-		// work around for deprecated texts
-		if (isset($config["texts"]) && $config["messages"] === []) {/** @deprecated */
-			trigger_error("\$defaults[\"texts\"] is deprecated.", E_USER_DEPRECATED);
-			foreach ($config["texts"] as $val) {
-				$config["messages"][$val[0]] = $val[1];
 			}
 		}
 

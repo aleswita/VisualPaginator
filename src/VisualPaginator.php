@@ -197,47 +197,6 @@ class VisualPaginator extends Application\UI\Control
 	}
 
 	/**
-	 * @deprecated
-	 * @param array
-	 * @return self
-	 * @throws Nette\InvalidArgumentException
-	 */
-	public function setItemsPerPageList(array $arr): self {
-		trigger_error(__METHOD__ . " is deprecated.", E_USER_DEPRECATED);
-		if ($arr !== array_filter($arr, function ($s): bool {return is_numeric($s);})) {
-			throw new Nette\InvalidArgumentException('Keys in $itemsPerPageList array must be numeric.');
-		}
-		self::$itemsPerPageList = $arr;
-		return $this;
-	}
-
-	/**
-	 * @deprecated
-	 * @param array
-	 * @return self
-	 * @throws Nette\InvalidArgumentException
-	 */
-	public function setPaginatorTemplate(array $template): self {
-		trigger_error(__METHOD__ . " is deprecated.", E_USER_DEPRECATED);
-		if (array_keys($template) !== array_keys(self::TEMPLATE_NORMAL)) {
-			throw new Nette\InvalidArgumentException("Template array must have these keys: main, paginator and itemsPerPage.");
-		}
-		self::$paginatorTemplate = $template;
-		return $this;
-	}
-
-	/**
-	 * @deprecated
-	 * @param string
-	 * @return self
-	 */
-	public function setText(string ... $s): self {
-		trigger_error(__METHOD__ . " is deprecated.", E_USER_DEPRECATED);
-		self::$messages[$s[0]] = $s[1];
-		return $this;
-	}
-
-	/**
 	 * @param bool
 	 * @return self
 	 */
