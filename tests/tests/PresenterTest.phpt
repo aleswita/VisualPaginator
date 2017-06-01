@@ -25,16 +25,20 @@ final class PresenterTest extends Tester\TestCase
 	/** @var Nette\Application\IPresenterFactory */
 	private $presenterFactory;
 
-	/** @var \SystemContainer|\Nette\DI\Container */
+	/** @var Nette\DI\Container */
 	private $container;
+
+	public function __construct()
+	{
+		$this->container = $this->createContainer();
+		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
+	}
 
 	/**
 	 * @return void
 	 */
 	public function setUp(): void {
 		parent::setUp();
-		$this->container = $this->createContainer();
-		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
 	}
 
 	/**
