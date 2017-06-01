@@ -105,8 +105,21 @@ final class PresenterTest extends Tester\TestCase
 	public function testSessionOne(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionOne"]);
-		$session = $presenter->getSession();
 		$response = $presenter->run($request);
+		$session = $presenter->getSession();
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
+		Tester\Assert::true($session->hasSection(AlesWita\Components\VisualPaginator::SESSION_SECTION));
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSessionTwo(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionTwo", "do" => "paginator-paginate", "paginator-page" => 1, "paginator-itemsPerPage" => 20]);
+		$response = $presenter->run($request);
+		$session = $presenter->getSession();
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
 		Tester\Assert::true($session->hasSection(AlesWita\Components\VisualPaginator::SESSION_SECTION));
@@ -193,7 +206,7 @@ final class PresenterTest extends Tester\TestCase
 	 */
 	public function testTemplateNormalFour(): void {
 		$temp = AlesWita\Components\VisualPaginator::$itemsPerPageList;
-        AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
+		AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
 
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFour"]);
@@ -241,6 +254,24 @@ final class PresenterTest extends Tester\TestCase
 	public function testTemplateNormalSix(): void {
 		$presenter = $this->createPresenter();
 		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateSix"]);
+		$response = $presenter->run($request);
+
+		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
+
+		$source = (string) $response->getSource();
+		$dom = Tester\DomQuery::fromHtml($source);
+		$numbers = $dom->find("strong a");
+
+		Tester\Assert::count(1, $numbers);
+		Tester\Assert::same(1, (int) $numbers[0]);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testTemplateNormalSeven(): void {
+		$presenter = $this->createPresenter();
+		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateSeven"]);
 		$response = $presenter->run($request);
 
 		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
