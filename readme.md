@@ -31,7 +31,7 @@ final class HomePresenter extends BasePresenter
 	...
 
 	public function renderDefault(): void {
-		$dataSource = $this->model->dataSource();
+		$dataSource = $this->model->getDataSource();
 		$this["paginator"]->setItemCount($dataSource->count());
 		$dataSource->applyLimit($this["paginator"]->getItemsPerPage(), $this["paginator"]->getOffset());
 
@@ -43,9 +43,9 @@ final class HomePresenter extends BasePresenter
 	 */
 	protected function createComponentPaginator(): AlesWita\Components\VisualPaginator {
 		$vp = new VisualPaginator;
-		// paginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP_V3 and TEMPLATE_BOOTSTRAP_V4	
+		// paginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP_V3 and TEMPLATE_BOOTSTRAP_V4
 		$vp::paginatorTemplate = VisualPaginator::TEMPLATE_BOOTSTRAP_V3;
-		
+
 		return $vp;
 	}
 }
@@ -113,7 +113,7 @@ Setup in **config.neon**:
 ```neon
 extensions:
 	visualpaginator: AlesWita\Components\VisualPaginatorExtension
-	
+
 visualpaginator:
 	session: @Nette\Http\Session
 	translator: @Nette\Localization\ITranslator
