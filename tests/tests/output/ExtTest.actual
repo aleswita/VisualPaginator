@@ -1,5 +1,0 @@
-array(
-	'main' => 'C:\\xampp\\htdocs\\easyweb\\vendor\\aleswita\\visualpaginator\\src/templates/normal/main.latte',
-	'paginator' => 'C:\\xampp\\htdocs\\easyweb\\vendor\\aleswita\\visualpaginator\\src/templates/normal/paginator.latte',
-	'itemsPerPage' => 'C:\\xampp\\htdocs\\easyweb\\vendor\\aleswita\\visualpaginator\\src/templates/normal/items-per-page.latte',
-)
