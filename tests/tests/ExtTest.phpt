@@ -16,6 +16,7 @@ use Nette;
 use Tester;
 
 require_once __DIR__ . "/../bootstrap.php";
+require_once __DIR__ . "/../app/FakeTranslator.php";
 
 
 final class ExtTest extends Tester\TestCase
@@ -57,7 +58,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException Keys in $defaults["itemsPerPageList"] array must be numeric.
 	 * @return void
 	 */
 	public function testOne(): void {
@@ -70,7 +71,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException $defaults["itemsPerPageList"] must be array.
 	 * @return void
 	 */
 	public function testTwo(): void {
@@ -83,7 +84,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException $defaults["template"] must be array.
 	 * @return void
 	 */
 	public function testThree(): void {
@@ -96,7 +97,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException Array $defaults["template"] must have these keys: main, paginator and itemsPerPage.
 	 * @return void
 	 */
 	public function testFour(): void {
@@ -109,7 +110,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException One or more files in $defaults["template"] does not exist.
 	 * @return void
 	 */
 	public function testFive(): void {
@@ -122,7 +123,7 @@ final class ExtTest extends Tester\TestCase
 	}
 
 	/**
-	 * @throws Nette\InvalidArgumentException
+	 * @throws Nette\InvalidArgumentException AlesWita\Components\VisualPaginator::$messages[foo] does not exist.
 	 * @return void
 	 */
 	public function testSix(): void {
@@ -132,6 +133,23 @@ final class ExtTest extends Tester\TestCase
 		$configurator->addConfig(__DIR__ . "/../app/config/extTest6.neon");
 
 		$configurator->createContainer();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function testSeven(): void {
+		$configurator = new Nette\Configurator();
+
+		$configurator->setTempDirectory(TEMP_DIR);
+		$configurator->addConfig(__DIR__ . "/../app/config/extTest7.neon");
+
+		$configurator->createContainer();
+
+		Tester\Assert::same([1 => 1, 2 => 2, 3 => 3], AlesWita\Components\VisualPaginator::$itemsPerPageList);
+		Tester\Assert::same(AlesWita\Components\VisualPaginator::TEMPLATE_BOOTSTRAP_V4, AlesWita\Components\VisualPaginator::$paginatorTemplate);
+		Tester\Assert::same("foo", AlesWita\Components\VisualPaginator::$messages["itemsPerPage"]);
+		Tester\Assert::same("foo", AlesWita\Components\VisualPaginator::$messages["send"]);
 	}
 }
 
