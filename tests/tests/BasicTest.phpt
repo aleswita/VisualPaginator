@@ -151,5 +151,6 @@ final class BasicTest extends Tester\TestCase
 	}
 }
 
+
 $test = new BasicTest;
 $test->run();

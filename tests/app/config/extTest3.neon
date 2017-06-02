@@ -1,0 +1,5 @@
+extensions:
+	visualpaginator: AlesWita\Components\VisualPaginatorExtension
+
+visualpaginator:
+	template: 1

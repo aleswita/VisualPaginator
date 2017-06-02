@@ -28,17 +28,13 @@ final class PresenterTest extends Tester\TestCase
 	/** @var Nette\DI\Container */
 	private $container;
 
-	public function __construct()
-	{
-	}
-
 	/**
 	 * @return void
 	 */
 	public function setUp(): void {
+		parent::setUp();
 		$this->container = $this->createContainer();
 		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
-		parent::setUp();
 	}
 
 	/**
@@ -54,7 +50,6 @@ final class PresenterTest extends Tester\TestCase
 	private function createContainer(): Nette\DI\Container {
 		$configurator = new Nette\Configurator();
 
-		$configurator->setDebugMode(TRUE);
 		$configurator->setTempDirectory(TEMP_DIR);
 		$configurator->addConfig(__DIR__ . "/../app/config/config.neon");
 

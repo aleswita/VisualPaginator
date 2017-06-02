@@ -1,0 +1,6 @@
+extensions:
+	visualpaginator: AlesWita\Components\VisualPaginatorExtension
+
+visualpaginator:
+	messages:
+		foo: "foo"

@@ -56,7 +56,7 @@ class VisualPaginatorExtension extends Nette\DI\CompilerExtension
 		// items per page list
 		if ($config["itemsPerPageList"] !== NULL) {
 			if (is_array($config["itemsPerPageList"])) {
-				if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($s): bool {return is_numeric($s);})) {
+				if ($config["itemsPerPageList"] === array_filter($config["itemsPerPageList"], function ($k): bool {return is_numeric($k);}, ARRAY_FILTER_USE_KEY)) {
 					$initialize->addBody("AlesWita\\Components\\VisualPaginator::\$itemsPerPageList = ?;", [$config["itemsPerPageList"]]);
 				} else {
 					throw new Nette\InvalidArgumentException("Keys in \$defaults[\"itemsPerPageList\"] array must be numeric.");
