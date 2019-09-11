@@ -233,7 +233,7 @@ class VisualPaginator extends Application\UI\Control
 		}
 
 		$this->getPaginator()->page = ($this->page === NULL ? 1 : $this->page);
-		$this->getPaginator()->itemsPerPage = $this->itemsPerPage;
+		$this->getPaginator()->itemsPerPage = ($this->itemsPerPage === NULL ? array_keys(self::$itemsPerPageList)[0] : $this->itemsPerPage);
 		$this->page = $this->getPaginator()->page;
 		$this->itemsPerPage = $this->getPaginator()->itemsPerPage;
 
