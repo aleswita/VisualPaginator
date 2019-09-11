@@ -103,8 +103,8 @@ class VisualPaginator extends Application\UI\Control
 		if ($this->paginator === NULL) {
 			$this->paginator = new Utils\Paginator;
 		}
-		$this->paginator->page = ($this->page === NULL ? 1 : $this->page);
-		$this->paginator->itemsPerPage = ($this->itemsPerPage === NULL ? array_keys(self::$itemsPerPageList)[0] : $this->itemsPerPage);
+		$this->paginator->page = ($this->page === NULL ? 1 : (int) $this->page);
+		$this->paginator->itemsPerPage = ($this->itemsPerPage === NULL ? array_keys(self::$itemsPerPageList)[0] : (int) $this->itemsPerPage);
 		return $this->paginator;
 	}
 
@@ -232,8 +232,8 @@ class VisualPaginator extends Application\UI\Control
 			}
 		}
 
-		$this->getPaginator()->page = ($this->page === NULL ? 1 : $this->page);
-		$this->getPaginator()->itemsPerPage = ($this->itemsPerPage === NULL ? array_keys(self::$itemsPerPageList)[0] : $this->itemsPerPage);
+		$this->getPaginator()->page = ($this->page === NULL ? 1 : (int) $this->page);
+		$this->getPaginator()->itemsPerPage = ($this->itemsPerPage === NULL ? array_keys(self::$itemsPerPageList)[0] : (int) $this->itemsPerPage);
 		$this->page = $this->getPaginator()->page;
 		$this->itemsPerPage = $this->getPaginator()->itemsPerPage;
 
