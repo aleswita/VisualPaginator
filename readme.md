@@ -39,12 +39,12 @@ final class HomePresenter extends BasePresenter
 	}
 
 	/**
-	 * @return AlesWita\Components\VisualPaginator
+	 * @return VisualPaginator
 	 */
-	protected function createComponentPaginator(): AlesWita\Components\VisualPaginator {
+	protected function createComponentPaginator(): VisualPaginator {
 		$vp = new VisualPaginator;
 		// paginator have 3 predefined templates: TEMPLATE_NORMAL, TEMPLATE_BOOTSTRAP_V3 and TEMPLATE_BOOTSTRAP_V4
-		$vp::paginatorTemplate = VisualPaginator::TEMPLATE_BOOTSTRAP_V3;
+		$vp::$paginatorTemplate = VisualPaginator::TEMPLATE_BOOTSTRAP_V3;
 
 		return $vp;
 	}
@@ -66,7 +66,7 @@ $vp->setCanSetItemsPerPage(TRUE);
 ```
 You can set your choices (remember, keys in array must be numeric):
 ```php
-$vp:$itemsPerPageList = [10 => "10", 15 => "15"];
+$vp::$itemsPerPageList = [10 => "10", 15 => "15"];
 ```
 
 #### Session
