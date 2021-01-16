@@ -1,8 +1,14 @@
 {
   "name": "aleswita/visualpaginator",
   "description": "VisualPaginator for Nette Framework.",
-  "keywords": ["nette", "visual paginator", "paginator"],
+  "type": "library",
+  "keywords": [
+    "nette",
+    "visual paginator",
+    "paginator"
+  ],
   "license": ["MIT"],
+  "homepage": "https://github.com/aleswita/VisualPaginator",
   "authors": [
     {
       "name": "Ales Wita"
@@ -40,5 +46,8 @@
       "App\\": "tests/App",
       "Tests\\": "tests/Tests"
     }
+  },
+  "config": {
+    "sort-packages": true
   }
 }
