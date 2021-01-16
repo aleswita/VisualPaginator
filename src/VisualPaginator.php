@@ -57,13 +57,10 @@ final class VisualPaginator extends Control
 
 	private SessionSection $sessionSection;
 
-	private ?Translator $translator;
-
-	public function __construct(Session $session, ?Translator $translator)
+	public function __construct(Session $session)
 	{
 		$this->paginator = new Paginator();
 		$this->sessionSection = $session->getSection(self::SESSION_SECTION);
-		$this->translator = $translator;
 	}
 
 	public function setItemsPerPage(int $itemsPerPage): self

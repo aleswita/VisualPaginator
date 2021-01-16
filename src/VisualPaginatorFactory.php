@@ -20,10 +20,18 @@ final class VisualPaginatorFactory
 
 	public function create(): VisualPaginator
 	{
-		return new VisualPaginator(
-			$this->session,
-			$this->translator
-		);
+		$paginator = new VisualPaginator($this->session);
+
+		if ($this->translator !== null) {
+			$paginator->messages = array_map(
+				function (string $message): string {
+					return $this->translator->translate($message);
+				},
+				$paginator->messages
+			);
+		}
+
+		return $paginator;
 	}
 
 }
