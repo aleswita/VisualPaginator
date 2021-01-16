@@ -1,316 +1,82 @@
-<?php
+<?php declare(strict_types = 1);
 
-/**
- * This file is part of the AlesWita\Components\VisualPaginator
- * Copyright (c) 2015 Ales Wita (aleswita+github@gmail.com)
- *
- * @phpVersion 7.1.0
- */
+namespace Tests;
 
-declare(strict_types=1);
+use Nette\Application\IPresenterFactory;
+use Nette\Application\Request;
+use Nette\DI\Container;
+use Nette\Http\IRequest;
+use Tester\Assert;
+use Tester\DomQuery;
+use Tester\TestCase;
 
-namespace AlesWita\Components\VisualPaginator\Tests\Tests;
+$container = require __DIR__ . '/../bootstrap.php';
 
-use AlesWita;
-use Nette;
-use Tester;
-
-require_once __DIR__ . "/../bootstrap.php";
-require_once __DIR__ . "/../app/TestPresenter.php";
-require_once __DIR__ . "/../app/Router.php";
-
-
-final class PresenterTest extends Tester\TestCase
+final class PresenterTest extends TestCase
 {
-	/** @var Nette\Application\IPresenterFactory */
-	private $presenterFactory;
 
-	/** @var Nette\DI\Container */
-	private $container;
+	private Container $container;
 
-	/**
-	 * @return void
-	 */
-	public function setUp(): void {
-		parent::setUp();
-		$this->container = $this->createContainer();
-		$this->presenterFactory = $this->container->getByType("Nette\\Application\\IPresenterFactory");
+	private IPresenterFactory $presenterFactory;
+
+	public function __construct(Container $container)
+	{
+		$this->container = $container;
+
+		/** @var \Nette\Application\IPresenterFactory $presenterFactory */
+		$presenterFactory = $this->container->getByType(IPresenterFactory::class);
+
+		$this->presenterFactory = $presenterFactory;
 	}
 
-	/**
-	 * @return void
-	 */
-	public function tearDown(): void {
-		parent::tearDown();
-	}
+	public function test01(): void
+	{
+		/** @var \App\TestPresenter $presenter */
+		$presenter = $this->presenterFactory->createPresenter('Test');
 
-	/**
-	 * @return Nette\DI\Container
-	 */
-	private function createContainer(): Nette\DI\Container {
-		$configurator = new Nette\Configurator();
+		$request = new Request('Test', IRequest::GET);
 
-		$configurator->setTempDirectory(TEMP_DIR);
-		$configurator->addConfig(__DIR__ . "/../app/config/config.neon");
-
-		return $configurator->createContainer();
-	}
-
-	/**
-	 * @return Nette\Application\IPresenter
-	 */
-	private function createPresenter(): Nette\Application\IPresenter {
-		$presenter = $this->presenterFactory->createPresenter("Test");
-		$presenter->autoCanonicalize = FALSE;
-		return $presenter;
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testFormOne(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "POST", ["action" => "formOne"], ["itemsPerPage" => "20", "_do" => "paginator-itemsPerPage-submit", "send" => "Send"]);
+		/** @var \Nette\Application\Responses\TextResponse $response */
 		$response = $presenter->run($request);
 
-		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
-		Tester\Assert::contains("form-one?paginator-page=1&paginator-itemsPerPage=20", $response->getUrl());
-		Tester\Assert::true($presenter["paginator"]["itemsPerPage"]->isSuccess());
+		$dom = DomQuery::fromHtml(
+			$response->getSource()
+				->renderToString()
+		);
+
+		$tag = $dom->find('span');
+		Assert::count(2, $tag);
+
+		$actual = (array) $tag[0];
+		Assert::same('«', $actual[0]);
+
+		$actual = (array) $tag[1];
+		Assert::same('…', $actual[0]);
+
+		$tag = $dom->find('a');
+		Assert::count(5, $tag);
+
+		$actual = (array) $tag[0];
+		Assert::same('1', $actual[0]);
+		Assert::same('/?paginator-page=1&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+
+		$actual = (array) $tag[1];
+		Assert::same('2', $actual[0]);
+		Assert::same('/?paginator-page=2&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+
+		$actual = (array) $tag[2];
+		Assert::same('3', $actual[0]);
+		Assert::same('/?paginator-page=3&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+
+		$actual = (array) $tag[3];
+		Assert::same('100', $actual[0]);
+		Assert::same('/?paginator-page=100&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+
+		$actual = (array) $tag[4];
+		Assert::same('»', $actual[0]);
+		Assert::same('/?paginator-page=2&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
 	}
 
-	/**
-	 * @return void
-	 */
-	public function testFormTwo(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "formTwo", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 20]);
-		$session = $presenter->getSession();
-		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$option = $dom->find("select option[selected]");
-
-		Tester\Assert::count(1, $option);
-		Tester\Assert::same(20, (int) $option[0]["value"]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testSessionOne(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionOne"]);
-		$response = $presenter->run($request);
-		$session = $presenter->getSession();
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-		Tester\Assert::true($session->hasSection(AlesWita\Components\VisualPaginator::SESSION_SECTION));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testSessionTwo(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "sessionTwo"]);
-		$response = $presenter->run($request);
-		$session = $presenter->getSession();
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-		Tester\Assert::true($session->hasSection("my-section"));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testPaginateOne(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "paginateOne", "do" => "paginator-paginate", "paginator-page" => 2, "paginator-itemsPerPage" => 10]);
-		$session = $presenter->getSession();
-		$sessionSection = $session->getSection(AlesWita\Components\VisualPaginator::SESSION_SECTION);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\RedirectResponse);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalOne(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateOne"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("strong a");
-
-		Tester\Assert::count(5, $numbers);
-		Tester\Assert::same(1, (int) $numbers[0]);
-		Tester\Assert::same(2, (int) $numbers[1]);
-		Tester\Assert::same(3, (int) $numbers[2]);
-		Tester\Assert::same(4, (int) $numbers[3]);
-		Tester\Assert::same(5, (int) $numbers[4]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalTwo(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateTwo"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("strong a");
-
-		Tester\Assert::count(1, $numbers);
-		Tester\Assert::same(1, (int) $numbers[0]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalThree(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateThree"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$options = $dom->find("select option");
-
-		Tester\Assert::count(6, $options);
-		Tester\Assert::same(10, (int) $options[0]);
-		Tester\Assert::same(20, (int) $options[1]);
-		Tester\Assert::same(30, (int) $options[2]);
-		Tester\Assert::same(40, (int) $options[3]);
-		Tester\Assert::same(50, (int) $options[4]);
-		Tester\Assert::same(100, (int) $options[5]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalFour(): void {
-		$temp = AlesWita\Components\VisualPaginator::$itemsPerPageList;
-		AlesWita\Components\VisualPaginator::$itemsPerPageList = [2 => 2, 4 => 4, 6 => 6];
-
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFour"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("select option");
-
-		Tester\Assert::count(3, $numbers);
-		Tester\Assert::same(2, (int) $numbers[0]);
-		Tester\Assert::same(4, (int) $numbers[1]);
-		Tester\Assert::same(6, (int) $numbers[2]);
-
-		AlesWita\Components\VisualPaginator::$itemsPerPageList = $temp;
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalFive(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateFive"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("strong a");
-
-		Tester\Assert::count(5, $numbers);
-		Tester\Assert::same(1, (int) $numbers[0]);
-		Tester\Assert::same(2, (int) $numbers[1]);
-		Tester\Assert::same(3, (int) $numbers[2]);
-		Tester\Assert::same(4, (int) $numbers[3]);
-		Tester\Assert::same(5, (int) $numbers[4]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalSix(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateSix"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find("strong a");
-
-		Tester\Assert::count(1, $numbers);
-		Tester\Assert::same(1, (int) $numbers[0]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalSeven(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateSeven"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$options = $dom->find("select option");
-
-		Tester\Assert::count(6, $options);
-		Tester\Assert::same(10, (int) $options[0]);
-		Tester\Assert::same(20, (int) $options[1]);
-		Tester\Assert::same(30, (int) $options[2]);
-		Tester\Assert::same(40, (int) $options[3]);
-		Tester\Assert::same(50, (int) $options[4]);
-		Tester\Assert::same(100, (int) $options[5]);
-	}
-
-	/**
-	 * @return void
-	 */
-	public function testTemplateNormalEight(): void {
-		$presenter = $this->createPresenter();
-		$request = new Nette\Application\Request("Test", "GET", ["action" => "normalTemplateEight"]);
-		$response = $presenter->run($request);
-
-		Tester\Assert::true($response instanceof Nette\Application\Responses\TextResponse);
-
-		$source = (string) $response->getSource();
-		$dom = Tester\DomQuery::fromHtml($source);
-		$numbers = $dom->find('strong a[class="ajax"]');
-
-		Tester\Assert::count(5, $numbers);
-		Tester\Assert::same(1, (int) $numbers[0]);
-		Tester\Assert::same(2, (int) $numbers[1]);
-		Tester\Assert::same(3, (int) $numbers[2]);
-		Tester\Assert::same(4, (int) $numbers[3]);
-		Tester\Assert::same(5, (int) $numbers[4]);
-	}
 }
 
-
-$test = new PresenterTest;
-$test->run();
+(new PresenterTest($container))->run();

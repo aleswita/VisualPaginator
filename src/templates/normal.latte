@@ -1,0 +1,41 @@
+{templateType AlesWita\Components\Template}
+
+{if $paginator->isFirst()}
+  <span>&laquo;</span>
+{else}
+  <a n:href="paginate!, page => $paginator->page - 1" n:class="$ajax ? ajax">&laquo;</a>
+{/if}
+
+{foreach $steps as $step}
+  <strong>
+    <a n:href="paginate!, page => $step" n:class="$ajax ? ajax">{$step}</a>
+  </strong>
+  {if $iterator->nextValue > $step + 1}
+    <span>&hellip;</span>
+  {/if}
+{/foreach}
+
+{if $paginator->isLast()}
+  <span>&raquo;</span>
+{else}
+  <a n:href="paginate!, page => $paginator->page + 1" n:class="$ajax ? ajax">&raquo;</a>
+{/if}
+
+{if $itemsPerPage}
+  {php $formClass = $ajax ? 'ajax' : null}
+  {form itemsPerPage, class => $formClass}
+    <table>
+      <tr>
+        <td>
+          {label itemsPerPage /}
+        </td>
+        <td>
+          {input itemsPerPage}
+        </td>
+        <td>
+          {input send}
+        </td>
+      </tr>
+    </table>
+  {/form}
+{/if}

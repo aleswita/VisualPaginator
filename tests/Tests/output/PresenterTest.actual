@@ -1,0 +1,3 @@
+Tester\DomQuery::__set_state(/* #6747 */ [
+	0 => '/?paginator-page=1&paginator-itemsPerPage=10&do=paginator-paginate',
+])
