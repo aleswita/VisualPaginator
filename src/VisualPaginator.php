@@ -167,6 +167,8 @@ final class VisualPaginator extends Control
 		foreach ($this->onPaginate as $event) {
 			$event();
 		}
+
+		$this->redirect('this');
 	}
 
 	private function getSessionRepository(): string
