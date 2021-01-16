@@ -74,15 +74,12 @@ final class VisualPaginator extends Control
 			return $this;
 		}
 
-		if (!\array_keys($this->itemsPerPageList, $itemsPerPage)) {
+		if (!\array_key_exists($itemsPerPage, $this->itemsPerPageList)) {
 			throw new InvalidArgumentException(self::class . '$itemsPerPageList has not ' . $itemsPerPage . ' key.');
 		}
 
-		if ($this->sessionSection !== null) {
-			$this->sessionSection->offsetSet($this->getSessionRepository(), $itemsPerPage);
-		}
-
 		$this->itemsPerPage = $itemsPerPage;
+		$this->sessionSection->offsetSet($this->getSessionRepository(), $itemsPerPage);
 		return $this;
 	}
 
@@ -107,10 +104,10 @@ final class VisualPaginator extends Control
 			}
 		}
 
-		$this->paginator->page = $this->page ?? 1;
-		$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0];
-		$this->page = $this->paginator->page;
-		$this->itemsPerPage = $this->paginator->itemsPerPage;
+		$this->paginator->setPage($this->page ?? 1);
+		$this->paginator->setItemsPerPage($this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0]);
+		$this->page = $this->paginator->getPage();
+		$this->itemsPerPage = $this->paginator->getItemsPerPage();
 
 		$this['itemsPerPage']->setDefaults([
 			'itemsPerPage' => $this->itemsPerPage,
@@ -119,19 +116,19 @@ final class VisualPaginator extends Control
 
 	public function render(): void
 	{
-		if ($this->paginator->pageCount < 2) {
-			$steps = [$this->paginator->page];
+		if ($this->paginator->getPageCount() < 2) {
+			$steps = [$this->paginator->getPage()];
 		} else {
 			$arr = \range(
-				\max($this->paginator->firstPage, (int) $this->paginator->page - 2),
-				\min($this->paginator->lastPage, (int) $this->paginator->page + 2)
+				\max($this->paginator->getFirstPage(), $this->paginator->getPage() - 2),
+				\min((int) $this->paginator->getLastPage(), $this->paginator->getPage() + 2)
 			);
 
 			$count = 1;
-			$quotient = ($this->paginator->pageCount - 1) / $count;
+			$quotient = ($this->paginator->getPageCount() - 1) / $count;
 
 			for ($i = 0; $i <= $count; $i++) {
-				$arr[] = \round($quotient * $i) + $this->paginator->firstPage;
+				$arr[] = \round($quotient * $i) + $this->paginator->getFirstPage();
 			}
 
 			\sort($arr);
@@ -184,7 +181,7 @@ final class VisualPaginator extends Control
 			return $this->itemsPerPageRepository;
 		}
 
-		return $this->presenter->getName();
+		return $this->presenter->getName() ?? 'default';
 	}
 
 }
