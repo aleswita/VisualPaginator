@@ -3,8 +3,8 @@
 namespace AlesWita\Components;
 
 use Nette\Application\UI\Control;
-use Nette\Application\UI\Template;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\Template;
 use Nette\Http\Session;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Paginator;
