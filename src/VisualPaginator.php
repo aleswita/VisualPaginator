@@ -10,6 +10,9 @@ use Nette\Http\Session;
 use Nette\Localization\Translator;
 use Nette\Http\SessionSection;
 
+/**
+ * @property-read \Nette\Application\UI\Template $template
+ */
 final class VisualPaginator extends Control
 {
 
@@ -58,8 +61,8 @@ final class VisualPaginator extends Control
 	{
 		$this->paginator = new Paginator();
 
-		$this->paginator->page = $this->page ?? 1;
-		$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList)[0];
+		//$this->paginator->page = $this->page ?? 1;
+		//$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0];
 
 		$this->sessionSection = $session->getSection(self::SESSION_SECTION);
 		$this->translator = $translator;
@@ -89,6 +92,9 @@ final class VisualPaginator extends Control
 		return $this;
 	}
 
+	/**
+	 * @param array<mixed> $params
+	 */
 	public function loadState(array $params): void
 	{
 		parent::loadState($params);
@@ -108,7 +114,7 @@ final class VisualPaginator extends Control
 		}*/
 
 		$this->paginator->page = $this->page ?? 1;
-		$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList)[0];
+		$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0];
 		$this->page = $this->paginator->page;
 		$this->itemsPerPage = $this->paginator->itemsPerPage;
 
@@ -123,15 +129,15 @@ final class VisualPaginator extends Control
 			$steps = [$this->paginator->page];
 		} else {
 			$arr = \range(
-				\max($this->paginator->firstPage, $this->paginator->page - 2),
-				\min($this->paginator->lastPage, $this->paginator->page + 2)
+				\max($this->paginator->firstPage, (int) $this->paginator->page - 2),
+				\min($this->paginator->lastPage, (int) $this->paginator->page + 2)
 			);
 
 			$count = 1;
 			$quotient = ($this->paginator->pageCount - 1) / $count;
 
 			for ($i = 0; $i <= $count; $i++) {
-				$arr[] = round($quotient * $i) + $this->paginator->firstPage;
+				$arr[] = \round($quotient * $i) + $this->paginator->firstPage;
 			}
 
 			\sort($arr);
