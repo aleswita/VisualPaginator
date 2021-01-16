@@ -1,5 +1,0 @@
-extensions:
-	visualpaginator: AlesWita\Components\VisualPaginatorExtension
-
-visualpaginator:
-	itemsPerPageList: "foo"
