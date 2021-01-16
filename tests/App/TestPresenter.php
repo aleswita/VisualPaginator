@@ -2,8 +2,8 @@
 
 namespace App;
 
-use AlesWita\Components\VisualPaginator;
-use AlesWita\Components\VisualPaginatorFactory;
+use AlesWita\VisualPaginator\VisualPaginator;
+use AlesWita\VisualPaginator\VisualPaginatorFactory;
 use Nette\Application\UI\Presenter;
 
 final class TestPresenter extends Presenter

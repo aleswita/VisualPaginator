@@ -3,7 +3,7 @@ application:
 		*: App\*Presenter
 
 services:
-	- AlesWita\Components\VisualPaginatorFactory
+	- AlesWita\VisualPaginator\VisualPaginatorFactory
 	- App\RouterFactory::createRouter
 
 	test.presenter:

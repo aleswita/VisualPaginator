@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace AlesWita\Components;
+namespace AlesWita\VisualPaginator;
 
 use Nette\Utils\Paginator;
 

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace AlesWita\Components;
+namespace AlesWita\VisualPaginator;
 
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
