@@ -152,7 +152,10 @@ final class VisualPaginator extends Control
 
 		$form->onSuccess[] = function (Form $form, array $values): void {
 			$this->setItemsPerPage($values['itemsPerPage']);
-			$this->handlePaginate();
+			
+			foreach ($this->onPaginate as $event) {
+				$event();
+			}
 
 			if (!$this->presenter->isAjax()) {
 				$this->redirect('this');
