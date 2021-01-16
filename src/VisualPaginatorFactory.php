@@ -22,14 +22,16 @@ final class VisualPaginatorFactory
 	{
 		$paginator = new VisualPaginator($this->session);
 
-		if ($this->translator !== null) {
-			$paginator->messages = array_map(
-				function (string $message): string {
-					return $this->translator->translate($message);
-				},
-				$paginator->messages
-			);
-		}
+		$paginator->messages = array_map(
+			function (string $message): string {
+				if ($this->translator === null) {
+					return $message;
+				}
+
+				return $this->translator->translate($message);
+			},
+			$paginator->messages
+		);
 
 		return $paginator;
 	}
