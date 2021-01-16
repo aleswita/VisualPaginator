@@ -9,9 +9,7 @@ use Nette\Application\UI\Presenter;
 final class TestPresenter extends Presenter
 {
 
-	/**
-	 * @inject
-	 */
+	/** @inject */
 	public VisualPaginatorFactory $visualPaginatorFactory;
 
 	protected function createComponentPaginator(): VisualPaginator

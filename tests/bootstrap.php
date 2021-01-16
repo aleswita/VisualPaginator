@@ -7,7 +7,7 @@ Tester\Environment::setup();
 $configurator = new Nette\Configurator();
 
 $configurator->setTempDirectory(__DIR__ . '/../temp')
-	->addConfig(__DIR__ . '/App/config/config.neon');;
+	->addConfig(__DIR__ . '/App/config/config.neon');
 
 $configurator->createRobotLoader()
 	->addDirectory(__DIR__)

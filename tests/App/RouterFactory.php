@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Nette\Routing\Router;
 use Nette\Application\Routers\RouteList;
+use Nette\Routing\Router;
 
 final class RouterFactory
 {
@@ -14,4 +14,5 @@ final class RouterFactory
 		$route->addRoute('<presenter>/<action>', 'Test:default');
 		return $route;
 	}
+
 }

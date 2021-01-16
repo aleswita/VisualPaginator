@@ -2,9 +2,9 @@
 
 namespace AlesWita\Components;
 
-use Nette\InvalidArgumentException;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
+use Nette\InvalidArgumentException;
 use Nette\Utils\Paginator;
 use Nette\Http\Session;
 use Nette\Localization\Translator;

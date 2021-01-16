@@ -2,8 +2,10 @@
 
 namespace Tests;
 
+use App\TestPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
+use Nette\Application\Responses\TextResponse;
 use Nette\DI\Container;
 use Nette\Http\IRequest;
 use Tester\Assert;
@@ -23,7 +25,7 @@ final class PresenterTest extends TestCase
 	{
 		$this->container = $container;
 
-		/** @var \Nette\Application\IPresenterFactory $presenterFactory */
+		/** @var IPresenterFactory $presenterFactory */
 		$presenterFactory = $this->container->getByType(IPresenterFactory::class);
 
 		$this->presenterFactory = $presenterFactory;
@@ -31,12 +33,12 @@ final class PresenterTest extends TestCase
 
 	public function test01(): void
 	{
-		/** @var \App\TestPresenter $presenter */
+		/** @var TestPresenter $presenter */
 		$presenter = $this->presenterFactory->createPresenter('Test');
 
 		$request = new Request('Test', IRequest::GET);
 
-		/** @var \Nette\Application\Responses\TextResponse $response */
+		/** @var TextResponse $response */
 		$response = $presenter->run($request);
 
 		$dom = DomQuery::fromHtml(
