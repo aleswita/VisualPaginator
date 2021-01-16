@@ -10,6 +10,7 @@ use Nette\Http\SessionSection;
 use Nette\InvalidArgumentException;
 use Nette\Localization\Translator;
 use Nette\Utils\Paginator;
+use Nette\Utils\Strings;
 
 /**
  * @property-read Template $template
@@ -174,11 +175,17 @@ final class VisualPaginator extends Control
 
 	private function getSessionRepository(): string
 	{
+		$repository = null;
+
 		if ($this->itemsPerPageRepository !== null) {
-			return $this->itemsPerPageRepository;
+			$repository = $this->itemsPerPageRepository;
 		}
 
-		return $this->presenter->getName() ?? 'default';
+		if ($repository === null) {
+			$repository = $this->presenter->getName() ?? 'default';
+		}
+
+		return Strings::lower($repository);
 	}
 
 }
