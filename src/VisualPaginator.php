@@ -78,9 +78,9 @@ final class VisualPaginator extends Control
 			throw new InvalidArgumentException(self::class . '$itemsPerPageList has not ' . $itemsPerPage . ' key.');
 		}
 
-		/*if ($this->session !== null) {
-			$this->sessionSection->offsetGet($this->getSessionReposity()) = $number;
-		}*/
+		if ($this->sessionSection !== null) {
+			$this->sessionSection->offsetSet($this->getSessionRepository(), $itemsPerPage);
+		}
 
 		$this->itemsPerPage = $itemsPerPage;
 		return $this;
@@ -99,19 +99,13 @@ final class VisualPaginator extends Control
 	{
 		parent::loadState($params);
 
-		/*if ($this->canSetItemsPerPage) {
-			if (
-				$this->sessionSection->offsetGet($this->getSessionReposity()) &&
-				\in_array($this->sessionSection->{$this->getSessionReposity()}, array_keys(self::$itemsPerPageList), TRUE)
-			) {
-
-
-
-				$this->setItemsPerPage($this->sessionSection->{$this->getSessionReposity()});
+		if ($this->canSetItemsPerPage) {
+			if ($this->sessionSection->offsetExists($this->getSessionRepository()) && in_array(array_keys($this->itemsPerPageList), $this->sessionSection->offsetGet($this->getSessionRepository()), true)) {
+				$this->setItemsPerPage($this->sessionSection->offsetGet($this->getSessionRepository()));
 			} else {
-				unset($this->sessionSection->{$this->getSessionReposity()});
+				$this->sessionSection->offsetUnset($this->getSessionRepository());
 			}
-		}*/
+		}
 
 		$this->paginator->page = $this->page ?? 1;
 		$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0];
@@ -184,13 +178,13 @@ final class VisualPaginator extends Control
 		}
 	}
 
-	/*private function getSessionRepository(): string
+	private function getSessionRepository(): string
 	{
 		if ($this->itemsPerPageRepository !== null) {
 			return $this->itemsPerPageRepository;
 		}
 
 		return $this->presenter->getName();
-	}*/
+	}
 
 }
