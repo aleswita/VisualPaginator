@@ -2,16 +2,17 @@
 
 namespace AlesWita\Components;
 
+use Nette\Application\UI\Template;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
+use Nette\Http\Session;
 use Nette\InvalidArgumentException;
 use Nette\Utils\Paginator;
-use Nette\Http\Session;
 use Nette\Localization\Translator;
 use Nette\Http\SessionSection;
 
 /**
- * @property-read \Nette\Application\UI\Template $template
+ * @property-read Template $template
  */
 final class VisualPaginator extends Control
 {
@@ -60,10 +61,6 @@ final class VisualPaginator extends Control
 	public function __construct(Session $session, ?Translator $translator)
 	{
 		$this->paginator = new Paginator();
-
-		//$this->paginator->page = $this->page ?? 1;
-		//$this->paginator->itemsPerPage = $this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0];
-
 		$this->sessionSection = $session->getSection(self::SESSION_SECTION);
 		$this->translator = $translator;
 	}
@@ -74,7 +71,7 @@ final class VisualPaginator extends Control
 			return $this;
 		}
 
-		if (!\array_key_exists($itemsPerPage, $this->itemsPerPageList)) {
+		if (!array_key_exists($itemsPerPage, $this->itemsPerPageList)) {
 			throw new InvalidArgumentException(self::class . '$itemsPerPageList has not ' . $itemsPerPage . ' key.');
 		}
 
@@ -105,7 +102,7 @@ final class VisualPaginator extends Control
 		}
 
 		$this->paginator->setPage($this->page ?? 1);
-		$this->paginator->setItemsPerPage($this->itemsPerPage ?? \array_keys($this->itemsPerPageList, null, true)[0]);
+		$this->paginator->setItemsPerPage($this->itemsPerPage ?? array_keys($this->itemsPerPageList, null, true)[0]);
 		$this->page = $this->paginator->getPage();
 		$this->itemsPerPage = $this->paginator->getItemsPerPage();
 
@@ -119,22 +116,22 @@ final class VisualPaginator extends Control
 		if ($this->paginator->getPageCount() < 2) {
 			$steps = [$this->paginator->getPage()];
 		} else {
-			$arr = \range(
-				\max($this->paginator->getFirstPage(), $this->paginator->getPage() - 2),
-				\min((int) $this->paginator->getLastPage(), $this->paginator->getPage() + 2)
+			$arr = range(
+				max($this->paginator->getFirstPage(), $this->paginator->getPage() - 2),
+				min((int) $this->paginator->getLastPage(), $this->paginator->getPage() + 2)
 			);
 
 			$count = 1;
 			$quotient = ($this->paginator->getPageCount() - 1) / $count;
 
 			for ($i = 0; $i <= $count; $i++) {
-				$arr[] = \round($quotient * $i) + $this->paginator->getFirstPage();
+				$arr[] = round($quotient * $i) + $this->paginator->getFirstPage();
 			}
 
-			\sort($arr);
+			sort($arr);
 
-			$steps = \array_values(
-				\array_unique($arr)
+			$steps = array_values(
+				array_unique($arr)
 			);
 		}
 
