@@ -8,20 +8,20 @@ Visual Paginator for Nette Framework.
 ## Installation
 The best way to install AlesWita/VisualPaginator is using [Composer](http://getcomposer.org/):
 ```sh
-$ composer require aleswita/visualpaginator:2.0
+$ composer require aleswita/visualpaginator
 ```
 
 ## Usage
 #### Neon
 ```yaml
 services:
-	- AlesWita\Components\VisualPaginatorFactory
+	- AlesWita\VisualPaginator\VisualPaginatorFactory
 ```
 
 #### Presenter
 ```php
-use AlesWita\Components\VisualPaginator;
-use AlesWita\Components\VisualPaginatorFactory;
+use AlesWita\VisualPaginator\VisualPaginator;
+use AlesWita\VisualPaginator\VisualPaginatorFactory;
 use Nette\Application\UI\Presenter;
 
 final class HomePresenter extends Presenter
