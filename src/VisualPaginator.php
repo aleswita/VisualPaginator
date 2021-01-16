@@ -94,7 +94,7 @@ final class VisualPaginator extends Control
 		parent::loadState($params);
 
 		if ($this->canSetItemsPerPage) {
-			if ($this->sessionSection->offsetExists($this->getSessionRepository()) && in_array(array_keys($this->itemsPerPageList), $this->sessionSection->offsetGet($this->getSessionRepository()), true)) {
+			if ($this->sessionSection->offsetExists($this->getSessionRepository()) && array_key_exists($this->sessionSection->offsetGet($this->getSessionRepository()), $this->itemsPerPageList)) {
 				$this->setItemsPerPage($this->sessionSection->offsetGet($this->getSessionRepository()));
 			} else {
 				$this->sessionSection->offsetUnset($this->getSessionRepository());
