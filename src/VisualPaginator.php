@@ -168,7 +168,9 @@ final class VisualPaginator extends Control
 			$event();
 		}
 
-		$this->redirect('this');
+		if (!$this->presenter->isAjax()) {
+			$this->redirect('this');
+		}
 	}
 
 	private function getSessionRepository(): string
