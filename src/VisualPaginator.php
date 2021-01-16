@@ -8,7 +8,6 @@ use Nette\Application\UI\Template;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use Nette\InvalidArgumentException;
-use Nette\Localization\Translator;
 use Nette\Utils\Paginator;
 use Nette\Utils\Strings;
 
