@@ -102,7 +102,7 @@ final class VisualPaginator extends Control
 		}
 
 		$this->paginator->setPage($this->page ?? 1);
-		$this->paginator->setItemsPerPage($this->itemsPerPage ?? array_key_first($this->itemsPerPageList));
+		$this->paginator->setItemsPerPage($this->itemsPerPage ?? (int) array_key_first($this->itemsPerPageList));
 		$this->page = $this->paginator->getPage();
 		$this->itemsPerPage = $this->paginator->getItemsPerPage();
 
