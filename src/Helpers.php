@@ -34,7 +34,7 @@ final class Helpers
 			$quotient = ($paginator->getPageCount() - 1) / $count;
 
 			for ($i = 0; $i <= $count; $i++) {
-				$arr[] = round($quotient * $i) + $paginator->getFirstPage();
+				$arr[] = (int) round($quotient * $i) + $paginator->getFirstPage();
 			}
 
 			sort($arr);
