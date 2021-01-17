@@ -110,29 +110,7 @@ final class VisualPaginator extends Control
 
 	public function render(): void
 	{
-		if ($this->paginator->getPageCount() < 2) {
-			$steps = [$this->paginator->getPage()];
-		} else {
-			$arr = range(
-				max($this->paginator->getFirstPage(), $this->paginator->getPage() - 2),
-				min((int) $this->paginator->getLastPage(), $this->paginator->getPage() + 2)
-			);
-
-			$count = 1;
-			$quotient = ($this->paginator->getPageCount() - 1) / $count;
-
-			for ($i = 0; $i <= $count; $i++) {
-				$arr[] = round($quotient * $i) + $this->paginator->getFirstPage();
-			}
-
-			sort($arr);
-
-			$steps = array_values(
-				array_unique($arr)
-			);
-		}
-
-		$this->template->steps = $steps;
+		$this->template->steps = Helpers::createSteps($this->paginator);
 		$this->template->itemsPerPage = $this->canSetItemsPerPage;
 		$this->template->paginator = $this->paginator;
 		$this->template->ajax = $this->ajax;
@@ -152,10 +130,7 @@ final class VisualPaginator extends Control
 
 		$form->onSuccess[] = function (Form $form, array $values): void {
 			$this->setItemsPerPage($values['itemsPerPage']);
-
-			foreach ($this->onPaginate as $event) {
-				$event();
-			}
+			Helpers::callEvents($this->onPaginate);
 
 			if (!$this->presenter->isAjax()) {
 				$this->redirect('this');
@@ -167,9 +142,7 @@ final class VisualPaginator extends Control
 
 	public function handlePaginate(): void
 	{
-		foreach ($this->onPaginate as $event) {
-			$event();
-		}
+		Helpers::callEvents($this->onPaginate);
 
 		if (!$this->presenter->isAjax()) {
 			$this->redirect('this');
