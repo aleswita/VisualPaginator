@@ -20,6 +20,8 @@ services:
 
 #### Presenter
 ```php
+<?php declare(strict_types = 1);
+
 use AlesWita\VisualPaginator\VisualPaginator;
 use AlesWita\VisualPaginator\VisualPaginatorFactory;
 use Nette\Application\UI\Presenter;
@@ -30,11 +32,22 @@ final class HomePresenter extends Presenter
 	/** @inject */
 	public VisualPaginatorFactory $visualPaginatorFactory;
 
+	public function actionDefault(): void
+	{
+	    $this['paginator']->setItemCount(1000);
+	    $offset = $this['paginator']->getOffset();
+	    $itemsPerPage = $this['paginator']->getItemsPerPage();
+
+	    ['SELECT * FROM `orders` LIMIT ? OFFSET ?', $itemsPerPage, $offset];
+	}
+
 	protected function createComponentPaginator(): VisualPaginator
 	{
 		$paginator = $this->visualPaginatorFactory->create();
 
-		$paginator->setItemCount(1000);
+		$paginator->ajax = true;
+		$paginator->canSetItemsPerPage = true;
+		$paginator->templateFile = __DIR__ . '/my_awesome_template.latte';
 
 		return $paginator;
 	}
@@ -45,4 +58,10 @@ final class HomePresenter extends Presenter
 #### Template
 ```html
 {control paginator}
+```
+
+#### Custom paginator template
+```html
+{templateType AlesWita\VisualPaginator\Template}
+...
 ```
