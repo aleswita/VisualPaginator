@@ -83,6 +83,16 @@ final class VisualPaginator extends Control
 		return $this;
 	}
 
+	public function getOffset(): int
+	{
+		return $this->paginator->getOffset();
+	}
+
+	public function getItemsPerPage(): int
+	{
+		return $this->paginator->getItemsPerPage();
+	}
+
 	/**
 	 * @param array<mixed> $params
 	 */
