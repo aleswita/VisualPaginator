@@ -22,9 +22,6 @@ final class VisualPaginator extends Control
 	/** @persistent */
 	public ?int $page = null;
 
-	/** @persistent */
-	public ?int $itemsPerPage = null;
-
 	public bool $ajax = false;
 
 	public bool $canSetItemsPerPage = false;
@@ -52,6 +49,8 @@ final class VisualPaginator extends Control
 	/** @var array<callable> */
 	public array $onPaginate = [];
 
+	private int $itemsPerPage = 10;
+
 	private Paginator $paginator;
 
 	private SessionSection $sessionSection;
@@ -65,11 +64,11 @@ final class VisualPaginator extends Control
 	public function setItemsPerPage(int $itemsPerPage): self
 	{
 		if (!$this->canSetItemsPerPage) {
-			return $this;
+			throw new InvalidArgumentException(self::class . '::setItemsPerPage(): can not set items per page. You can enabled it by set $canSetItemsPerPage to true.');
 		}
 
 		if (!array_key_exists($itemsPerPage, $this->itemsPerPageList)) {
-			throw new InvalidArgumentException(self::class . '$itemsPerPageList has not ' . $itemsPerPage . ' key.');
+			throw new InvalidArgumentException(self::class . '::setItemsPerPage(): $itemsPerPageList has not key "' . $itemsPerPage . '".');
 		}
 
 		$this->itemsPerPage = $itemsPerPage;
@@ -79,7 +78,7 @@ final class VisualPaginator extends Control
 
 	public function setItemCount(int $count): self
 	{
-		$this->paginator->itemCount = $count;
+		$this->paginator->setItemCount($count);
 		return $this;
 	}
 
@@ -100,10 +99,10 @@ final class VisualPaginator extends Control
 	{
 		parent::loadState($params);
 
-		if ($this->canSetItemsPerPage) {
-			if ($this->sessionSection->offsetExists($this->getSessionRepository()) && array_key_exists($this->sessionSection->offsetGet($this->getSessionRepository()), $this->itemsPerPageList)) {
-				$this->setItemsPerPage($this->sessionSection->offsetGet($this->getSessionRepository()));
-			} else {
+		if ($this->sessionSection->offsetExists($this->getSessionRepository())) {
+			$this->setItemsPerPage($this->sessionSection->offsetGet($this->getSessionRepository()));
+
+			if (!$this->canSetItemsPerPage) {
 				$this->sessionSection->offsetUnset($this->getSessionRepository());
 			}
 		}
