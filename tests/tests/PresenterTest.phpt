@@ -2,12 +2,14 @@
 
 namespace Tests;
 
+use AlesWita\VisualPaginator\VisualPaginator;
 use App\TestPresenter;
 use Nette\Application\IPresenterFactory;
 use Nette\Application\Request;
 use Nette\Application\Responses\TextResponse;
 use Nette\DI\Container;
 use Nette\Http\IRequest;
+use Nette\InvalidArgumentException;
 use Tester\Assert;
 use Tester\DomQuery;
 use Tester\TestCase;
@@ -60,23 +62,49 @@ final class PresenterTest extends TestCase
 
 		$actual = (array) $tag[0];
 		Assert::same('1', $actual[0]);
-		Assert::same('/?paginator-page=1&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+		Assert::same('/?paginator-page=1&do=paginator-paginate', $actual['@attributes']['href']);
 
 		$actual = (array) $tag[1];
 		Assert::same('2', $actual[0]);
-		Assert::same('/?paginator-page=2&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+		Assert::same('/?paginator-page=2&do=paginator-paginate', $actual['@attributes']['href']);
 
 		$actual = (array) $tag[2];
 		Assert::same('3', $actual[0]);
-		Assert::same('/?paginator-page=3&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+		Assert::same('/?paginator-page=3&do=paginator-paginate', $actual['@attributes']['href']);
 
 		$actual = (array) $tag[3];
 		Assert::same('100', $actual[0]);
-		Assert::same('/?paginator-page=100&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+		Assert::same('/?paginator-page=100&do=paginator-paginate', $actual['@attributes']['href']);
 
 		$actual = (array) $tag[4];
 		Assert::same('»', $actual[0]);
-		Assert::same('/?paginator-page=2&paginator-itemsPerPage=10&do=paginator-paginate', $actual['@attributes']['href']);
+		Assert::same('/?paginator-page=2&do=paginator-paginate', $actual['@attributes']['href']);
+	}
+
+	public function test02(): void
+	{
+		/** @var TestPresenter $presenter */
+		$presenter = $this->presenterFactory->createPresenter('Test');
+
+		/** @var VisualPaginator $paginator */
+		$paginator = $presenter['paginator'];
+
+		$paginator->setItemCount(1000);
+
+		Assert::exception(static function () use ($paginator): void {
+			$paginator->setItemsPerPage(10);
+		}, InvalidArgumentException::class, 'AlesWita\VisualPaginator\VisualPaginator::setItemsPerPage(): can not set items per page. You can enabled it by set $canSetItemsPerPage to true.');
+
+		$paginator->canSetItemsPerPage = true;
+
+		Assert::exception(static function () use ($paginator): void {
+			$paginator->setItemsPerPage(15);
+		}, InvalidArgumentException::class, 'AlesWita\VisualPaginator\VisualPaginator::setItemsPerPage(): $itemsPerPageList has not key "15".');
+
+		$paginator->setItemsPerPage(20);
+		$paginator->loadState([]);
+
+		Assert::same(20, $paginator->getItemsPerPage());
 	}
 
 }
