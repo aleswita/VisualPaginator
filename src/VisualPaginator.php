@@ -171,8 +171,10 @@ final class VisualPaginator extends Control
 		}
 
 		if ($repository === null) {
-			if($this->getPresenterIfExists()) {
-				$repository = $this->presenter->getName() ?? 'default';
+			$presenter = $this->getPresenterIfExists();
+
+			if ($presenter !== null) {
+				$repository = $presenter->getName() ?? 'default';
 			} else {
 				$repository = 'default';
 			}
