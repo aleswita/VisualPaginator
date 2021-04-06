@@ -92,6 +92,11 @@ final class VisualPaginator extends Control
 		return $this->paginator->getItemsPerPage();
 	}
 
+	public function getPaginator(): Paginator
+    {
+		return $this->paginator;
+	}
+
 	/**
 	 * @param array<mixed> $params
 	 */
@@ -167,7 +172,13 @@ final class VisualPaginator extends Control
 		}
 
 		if ($repository === null) {
-			$repository = $this->presenter->getName() ?? 'default';
+			$presenter = $this->getPresenterIfExists();
+
+			if ($presenter !== null) {
+				$repository = $presenter->getName() ?? 'default';
+			} else {
+				$repository = 'default';
+			}
 		}
 
 		return Strings::lower($repository);
