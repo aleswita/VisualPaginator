@@ -92,7 +92,8 @@ final class VisualPaginator extends Control
 		return $this->paginator->getItemsPerPage();
 	}
 
-	public function getPaginator(): Paginator {
+	public function getPaginator(): Paginator
+    {
 		return $this->paginator;
 	}
 
