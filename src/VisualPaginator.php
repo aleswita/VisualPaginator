@@ -93,7 +93,7 @@ final class VisualPaginator extends Control
 	}
 
 	public function getPaginator(): Paginator
-    {
+	{
 		return $this->paginator;
 	}
 
